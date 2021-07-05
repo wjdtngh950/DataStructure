@@ -3,7 +3,7 @@
 
 
 typedef struct _Node {
-    int val;
+    char val;
     struct _Node *prev;
     struct _Node *next;
 } Node;
@@ -13,7 +13,7 @@ int bufCnt;
 Node *head;
 Node *last;
 
-Node *myAlloc(int n) {
+Node *myAlloc(char n) {
     buf[bufCnt].val = n;
     buf[bufCnt].prev = last;
     buf[bufCnt].next = NULL;
@@ -27,6 +27,13 @@ void addNode(int value) {
         last = last->next = myAlloc(value);
     }
 }
+
+void printList(){
+        for (Node* cursor = head; cursor != NULL; cursor = cursor->next) {
+            printf("%c", cursor->val);
+        }
+        printf("\n");
+    }
 
 int main(void) {
     // 초기 입력 문자열들을 리스트에 삽입
@@ -51,14 +58,14 @@ int main(void) {
                 cursor = cursor->next;
             }
         } else if (cmd == 'B') {
-                cursor=cursor ->prev->prev;
-                cursor=cursor->next;
+            cursor->prev->prev->next = cursor;
+            cursor->prev = cursor->prev->prev;
         } else {
             char c;
             scanf(" %c", &c);
-            cursor=cursor->prev;
-            addNode(c);
+
         }
     }
+    printList();
     return 0;
 }
