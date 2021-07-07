@@ -1,49 +1,40 @@
 #include <stdio.h>
 
-
-
 typedef struct _Node {
     char val;
-    struct _Node *prev;
-    struct _Node *next;
-} Node;
+    struct _Node* prev;
+    struct _Node* next;
+}Node;
 
 Node buf[11000000];
 int bufCnt;
-Node *head;
-Node *last;
+Node* head;
+Node* last;
 
-Node *myAlloc(char n) {
+Node* myAlloc(char n) {
     buf[bufCnt].val = n;
     buf[bufCnt].prev = last;
     buf[bufCnt].next = NULL;
     return &buf[bufCnt++];
 }
 
-void addNode(int value) {
+void addNode(char value) {
     if (head == NULL) {
         last = head = myAlloc(value);
-    } else {
+    }
+    else {
         last = last->next = myAlloc(value);
     }
 }
 
-void printList(){
-        for (Node* cursor = head; cursor != NULL; cursor = cursor->next) {
-            printf("%c", cursor->val);
-        }
-        printf("\n");
-    }
-
 int main(void) {
-    // 초기 입력 문자열들을 리스트에 삽입
     char buf[110000];
     scanf("%s", buf);
     for (int i = 0; buf[i] != '\0'; i++) {
         addNode(buf[i]);
     }
     addNode('$');
-    Node *cursor = last;
+    Node* cursor = last;
     int M;
     scanf("%d", &M);
     for (int m = 0; m < M; m++) {
@@ -53,19 +44,43 @@ int main(void) {
             if (cursor != head) {
                 cursor = cursor->prev;
             }
-        } else if (cmd == 'D') {
+        }
+        else if (cmd == 'D') {
             if (cursor != last) {
                 cursor = cursor->next;
             }
-        } else if (cmd == 'B') {
-            cursor->prev->prev->next = cursor;
-            cursor->prev = cursor->prev->prev;
-        } else {
+        }
+        else if (cmd == 'B') {
+            if (cursor != head) {
+                if (cursor->prev != head) {
+                    cursor->prev->prev->next = cursor;
+                    cursor->prev = cursor->prev->prev;
+                }
+                else {
+                    cursor->prev = NULL;
+                    head = cursor;
+                }
+            }
+        }
+        else {
             char c;
             scanf(" %c", &c);
-
+            Node* newNode = myAlloc(c);
+            newNode->prev = cursor->prev;
+            newNode->next = cursor;
+            if (cursor == head) {
+                head = newNode;
+            }
+            else {
+                cursor->prev->next = newNode;
+            }
+            cursor->prev = newNode;
         }
     }
-    printList();
+    for (Node* p = head; p->val != '$'; p = p->next) {
+        printf("%c", p->val);
+    }
+    printf("\n");
+
     return 0;
 }
