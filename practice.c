@@ -1,65 +1,37 @@
 #include<stdio.h>
-typedef struct _Node{
-    char val;
-    struct Node* prev;
-    struct Node* next;
-}Node;
 
-Node buf[110000];
-int bufCnt;
-Node* head;
-Node* last;
-
-Node* myAlloc(int n){
-    buf[bufCnt].val=n;
-    buf[bufCnt].prev=last;
-    buf[bufCnt].next=NULL;
-    return &buf[bufCnt++];
-}
-
-void addNode(char value){
-    if(head==NULL){
-        last=head= myAlloc(value);
-    }
-    else{
-        last=last->next= myAlloc(value);
-    }
-}
-
-void printList(){
-    for(Node* p=head;p!=NULL;p=p->next){
-        printf("%d", p->val);
-    }
-}
+char s[100000];
+int top=-1;
 
 int main(){
-    char N[100000];
-    scanf("%s", N);
-    for(int i=0;N[i]!='\0';i++){
-        addNode(N[i]);
-    }
-    addNode('$');
-    Node *cursor=last;
-    int M;
-    scanf("%d", &M);
-    for(int i=0;i<M;i++){
-        char cmd;
-        scanf(" %c", &cmd);
-        if(cmd=='L'){
-            if(head!=NULL){
-                cursor=cursor->prev;
+    char buffer[1000];
+    scanf("%s", buffer);
+    int ERROR=0;
+
+    for(int i=0; buffer[i]!='\0';i++){
+        if(buffer[i]=='('){
+            s[++top]='(';
+        }
+        else{
+            if(top==-1){
+                ERROR=1;
+                break;
+            }
+            char open=s[top--];
+            if(!(open=='(' && buffer[i]==')')){
+                ERROR=1;
+                break;
             }
         }
-        else if(cmd=='D'){
-            if(last!=NULL){
-                cursor=cursor->next;
-            }
-        }
-        else if(cmd=='B'){
-
-        }
     }
-
-    printList();
+    if(top!=-1){
+        ERROR=1;
+    }
+    if(ERROR==1){
+        printf("F");
+    }
+    else{
+        printf("T");
+    }
     return 0;
 }
