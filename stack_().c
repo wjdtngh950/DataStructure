@@ -33,6 +33,7 @@ int main(){
     else{
         printf("T");
     }
+
     return 0;
 }
 
