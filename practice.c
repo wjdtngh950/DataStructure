@@ -1,37 +1,80 @@
 #include<stdio.h>
 
-char s[100000];
-int top=-1;
+typedef struct _Node {
+    char val;
+    struct _Node *prev;
+    struct _Node *next;
+} Node;
 
-int main(){
-    char buffer[1000];
-    scanf("%s", buffer);
-    int ERROR=0;
+Node buf[1100000];
+int bufCnt;
+Node *head = NULL;
+Node *last = NULL;
 
-    for(int i=0; buffer[i]!='\0';i++){
-        if(buffer[i]=='('){
-            s[++top]='(';
-        }
-        else{
-            if(top==-1){
-                ERROR=1;
-                break;
+Node *myAlloc(char n) {
+    buf[bufCnt].val = n;
+    buf[bufCnt].prev = last;
+    buf[bufCnt].next = NULL;
+    return &buf[bufCnt++];
+}
+
+void addNode(char value) {
+    if (head == NULL) {
+        last = head = myAlloc(value);
+    } else {
+        last = last->next = myAlloc(value);
+    }
+}
+
+int main(void) {
+    char buf[100000];
+    scanf("%s", buf);
+    for (int i = 0; buf[i] != '\0'; i++) {
+        addNode(buf[i]);
+    }
+    int M;
+    scanf("%d", &M);
+    addNode('$');
+    Node *cursor = last;
+    for (int m = 1; m <= M; m++) {
+        char cmd;
+        scanf(" %c", &cmd);
+        if (cmd == 'L') {
+            if (cursor != head) {
+                cursor = cursor->prev;
             }
-            char open=s[top--];
-            if(!(open=='(' && buffer[i]==')')){
-                ERROR=1;
-                break;
+        } else if (cmd == 'D') {
+            if (cursor != last) {
+                cursor = cursor->next;
+            }
+        } else if (cmd == 'B') {
+            if (cursor != head) {
+                if (cursor->prev != head) {
+                    cursor->prev->prev->next = cursor;
+                    cursor->prev = cursor->prev->prev;
+                } else {
+                    cursor->prev = NULL;
+                    head = cursor;
+                }
+            }
+        } else {
+            char c;
+            scanf(" %c", &c);
+            Node *newNode = myAlloc(c);
+            if (cursor == head) {
+                cursor->prev = newNode;
+                newNode->next = cursor;
+                head = newNode;
+            } else {
+                newNode->prev = cursor->prev;
+                cursor->prev->next = newNode;
+                newNode->next = cursor;
+                cursor->prev = newNode;
             }
         }
     }
-    if(top!=-1){
-        ERROR=1;
-    }
-    if(ERROR==1){
-        printf("F");
-    }
-    else{
-        printf("T");
+    for (Node *p = head; p->val != '$'; p = p->next) {
+        printf("%c", p->val);
     }
     return 0;
 }
