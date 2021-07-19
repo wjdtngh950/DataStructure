@@ -1,28 +1,29 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct _Node {
     char val;
-    struct _Node *prev;
-    struct _Node *next;
+    struct _Node* prev;
+    struct _Node* next;
 } Node;
 
-Node buf[11000000];
-int bufCnt;
-Node *head;
-Node *last;
-
-Node *myAlloc(char n) {
-    buf[bufCnt].val = n;
-    buf[bufCnt].prev = last;
-    buf[bufCnt].next = NULL;
-    return &buf[bufCnt++];
-}
+Node* head;
+Node* last;
+Node* cursor;
 
 void addNode(char value) {
     if (head == NULL) {
-        last = head = myAlloc(value);
-    } else {
-        last = last->next = myAlloc(value);
+        last = head = (Node*)malloc(sizeof(Node));
+        head->val = value;
+        head->prev = NULL;
+        head->next = NULL;
+    }
+    else {
+        Node* newNode = (Node*)malloc(sizeof(Node));
+        newNode->val = value;
+        newNode->prev = last;
+        newNode->next = NULL;
+        last = last->next = newNode;
     }
 }
 
@@ -33,7 +34,7 @@ int main(void) {
         addNode(buf[i]);
     }
     addNode('$');
-    Node *cursor = last;
+    cursor = last;
     int M;
     scanf("%d", &M);
     for (int m = 0; m < M; m++) {
@@ -43,39 +44,41 @@ int main(void) {
             if (cursor != head) {
                 cursor = cursor->prev;
             }
-        } else if (cmd == 'D') {
+        }
+        else if (cmd == 'D') {
             if (cursor != last) {
                 cursor = cursor->next;
             }
-        } else if (cmd == 'B') {
+        }
+        else if (cmd == 'B') {
             if (cursor != head) {
                 if (cursor->prev != head) {
                     cursor->prev->prev->next = cursor;
                     cursor->prev = cursor->prev->prev;
-                } else {
-                    cursor->prev=head;
+                }
+                else {
+                    cursor->prev = head;
                     head = cursor;
                 }
             }
-        } else {
+        }
+        else {
             char c;
             scanf(" %c", &c);
-            Node *newNode = myAlloc(c);
-          if(cursor==head){
-              cursor->prev=newNode;
-              newNode->next=cursor;
-              head=newNode;
-              head->prev=NULL;
-          }
-          else{
-           newNode->next=cursor;
-           newNode->prev=cursor->prev;
-           cursor->prev->next=newNode;
-           cursor->prev=newNode;
-          }
+            Node* newNode = (Node*)malloc(sizeof(Node));
+            newNode->val = c;
+            newNode->prev = cursor->prev;
+            newNode->next = cursor;
+            if (cursor == head) {
+                head = newNode;
+            }
+            else {
+                cursor->prev->next = newNode;
+            }
+            cursor->prev = newNode;
         }
     }
-    for (Node *p = head; p->val != '$'; p = p->next) {
+    for (Node* p = head; p->val != '$'; p = p->next) {
         printf("%c", p->val);
     }
     printf("\n");
