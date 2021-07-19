@@ -2,16 +2,16 @@
 
 typedef struct _Node {
     char val;
-    struct _Node* prev;
-    struct _Node* next;
-}Node;
+    struct _Node *prev;
+    struct _Node *next;
+} Node;
 
 Node buf[11000000];
 int bufCnt;
-Node* head;
-Node* last;
+Node *head;
+Node *last;
 
-Node* myAlloc(char n) {
+Node *myAlloc(char n) {
     buf[bufCnt].val = n;
     buf[bufCnt].prev = last;
     buf[bufCnt].next = NULL;
@@ -21,8 +21,7 @@ Node* myAlloc(char n) {
 void addNode(char value) {
     if (head == NULL) {
         last = head = myAlloc(value);
-    }
-    else {
+    } else {
         last = last->next = myAlloc(value);
     }
 }
@@ -34,7 +33,7 @@ int main(void) {
         addNode(buf[i]);
     }
     addNode('$');
-    Node* cursor = last;
+    Node *cursor = last;
     int M;
     scanf("%d", &M);
     for (int m = 0; m < M; m++) {
@@ -44,40 +43,35 @@ int main(void) {
             if (cursor != head) {
                 cursor = cursor->prev;
             }
-        }
-        else if (cmd == 'D') {
+        } else if (cmd == 'D') {
             if (cursor != last) {
                 cursor = cursor->next;
             }
-        }
-        else if (cmd == 'B') {
+        } else if (cmd == 'B') {
             if (cursor != head) {
                 if (cursor->prev != head) {
                     cursor->prev->prev->next = cursor;
                     cursor->prev = cursor->prev->prev;
-                }
-                else {
-                    cursor->prev = NULL;
+                } else {
+                    cursor->prev=head;
                     head = cursor;
                 }
             }
-        }
-        else {
+        } else {
             char c;
             scanf(" %c", &c);
-            Node* newNode = myAlloc(c);
+            Node *newNode = myAlloc(c);
             newNode->prev = cursor->prev;
             newNode->next = cursor;
             if (cursor == head) {
                 head = newNode;
-            }
-            else {
+            } else {
                 cursor->prev->next = newNode;
             }
             cursor->prev = newNode;
         }
     }
-    for (Node* p = head; p->val != '$'; p = p->next) {
+    for (Node *p = head; p->val != '$'; p = p->next) {
         printf("%c", p->val);
     }
     printf("\n");
