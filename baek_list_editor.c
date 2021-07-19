@@ -61,14 +61,18 @@ int main(void) {
             char c;
             scanf(" %c", &c);
             Node *newNode = myAlloc(c);
-            newNode->prev = cursor->prev;
-            newNode->next = cursor;
-            if (cursor == head) {
-                head = newNode;
-            } else {
-                cursor->prev->next = newNode;
-            }
-            cursor->prev = newNode;
+          if(cursor==head){
+              cursor->prev=newNode;
+              newNode->next=cursor;
+              head=newNode;
+              head->prev=NULL;
+          }
+          else{
+           newNode->next=cursor;
+           newNode->prev=cursor->prev;
+           cursor->prev->next=newNode;
+           cursor->prev=newNode;
+          }
         }
     }
     for (Node *p = head; p->val != '$'; p = p->next) {
