@@ -1,4 +1,5 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct _Node {
     char val;
@@ -6,27 +7,23 @@ typedef struct _Node {
     struct _Node* next;
 } Node;
 
-Node buf[11000000];
-int bufCnt;
 Node* head = NULL;
 Node* last = NULL;
-Node* cursor = NULL; // ??
-
-Node* myAlloc(char n) { //이 부분이 뭔지 모르겠음
-    buf[bufCnt].val = n;
-    buf[bufCnt].prev = NULL;
-    buf[bufCnt].next = cursor;
-    return &buf[bufCnt++];
-}
+Node* cursor = NULL;
 
 void addNode(char value) {
     if (cursor == head) {
-        head = myAlloc(value);
+        head = (Node*)malloc(sizeof(Node));
+        head->val = value;
+        head->prev = NULL;
+        head->next = cursor;
         cursor->prev = head;
     }
     else {
-        Node* newNode = myAlloc(value);
+        Node* newNode = (Node*)malloc(sizeof(Node));
+        newNode->val = value;
         newNode->prev = cursor->prev;
+        newNode->next = cursor;
         cursor->prev->next = newNode;
         cursor->prev = newNode;
     }
@@ -45,8 +42,11 @@ int main(void) {
     for (int m = 0; m < M; m++) {
         char buf[1000000];
         scanf("%s", buf);
-        cursor = myAlloc('$');
-        head = last = cursor;
+        cursor = (Node*)malloc(sizeof(Node));
+        cursor->val = '$';
+        cursor->prev = NULL;
+        cursor->next = NULL; // 새로운 노드 '$' 생성 & 초기화
+        head = last = cursor; // 비어있는 연결리스트에 노드 삽입
         for (int i = 0; buf[i] != '\0'; i++) {
             if (buf[i] == '<') {
                 if (cursor != head) {
@@ -59,7 +59,7 @@ int main(void) {
                 }
             }
             else if (buf[i] == '-') {
-                if (cursor->prev != NULL) {
+                if (cursor->prev != NULL) { // 삭제할 수 있는 노드가 있는지 확인
                     if (cursor->prev->prev == NULL) { // 삭제할 노드가 헤드
                         head = cursor;
                     }
@@ -67,6 +67,10 @@ int main(void) {
                         cursor->prev->prev->next = cursor;
                     }
                     cursor->prev = cursor->prev->prev;
+                    // 삭제할 노드가 헤드 노드인 경우에도
+                    // 삭제 이후 cursor가 가리키는 노드의
+                    // prev 링크를 NULL 값으로 설정해줘야 하기 때문에
+                    // if / else 구문 모두 적용해야 하는 코드(69 Line)
                 }
             }
             else {
