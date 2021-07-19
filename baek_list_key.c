@@ -11,7 +11,7 @@ Node* head = NULL;
 Node* last = NULL;
 Node* cursor = NULL;
 
-void addNode(char value) {
+void addNode(char value) { //커서의 왼쪽에 삽
     if (cursor == head) {
         head = (Node*)malloc(sizeof(Node));
         head->val = value;
@@ -59,7 +59,7 @@ int main(void) {
                 }
             }
             else if (buf[i] == '-') {
-                if (cursor->prev != NULL) { // 삭제할 수 있는 노드가 있는지 확인
+                if (cursor!=head) { // 삭제할 수 있는 노드가 있는지 확인
                     if (cursor->prev->prev == NULL) { // 삭제할 노드가 헤드
                         head = cursor;
                     }
