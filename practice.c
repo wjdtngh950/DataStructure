@@ -53,7 +53,7 @@ int main(void) {
                     cursor->prev->prev->next = cursor;
                     cursor->prev = cursor->prev->prev;
                 } else {
-                    cursor->prev = NULL;
+                    cursor->prev = head; //NULL>head 로바꿈
                     head = cursor;
                 }
             }
@@ -61,16 +61,18 @@ int main(void) {
             char c;
             scanf(" %c", &c);
             Node *newNode = myAlloc(c);
-            if (cursor == head) {
-                cursor->prev = newNode;
-                newNode->next = cursor;
-                head = newNode;
-            } else {
-                newNode->prev = cursor->prev;
-                cursor->prev->next = newNode;
-                newNode->next = cursor;
-                cursor->prev = newNode;
+            if(cursor==head){
+                cursor->prev=newNode;
+                newNode->next=cursor;
+                head=newNode;
             }
+            else{
+                cursor->prev->next=newNode;
+                newNode->prev=cursor->prev;
+                newNode->next=cursor;
+                cursor->prev=newNode;
+            }
+
         }
     }
     for (Node *p = head; p->val != '$'; p = p->next) {
