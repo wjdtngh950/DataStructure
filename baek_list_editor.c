@@ -11,7 +11,7 @@ Node* head;
 Node* last;
 Node* cursor;
 
-void addNode(char value) {
+void addNode(char value) { //뒤에 삽입해줌
     if (head == NULL) {
         last = head = (Node*)malloc(sizeof(Node));
         head->val = value;
@@ -54,7 +54,7 @@ int main(void) {
             if (cursor != head) {
                 if (cursor->prev != head) {
                     cursor->prev->prev->next = cursor;
-                    cursor->prev = cursor->prev->prev;
+                    cursor->prev=cursor->prev->prev;
                 }
                 else {
                     cursor->prev = head;
