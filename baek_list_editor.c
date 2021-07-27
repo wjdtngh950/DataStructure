@@ -23,7 +23,9 @@ void addNode(char value) { //뒤에 삽입해줌
         newNode->val = value;
         newNode->prev = last;
         newNode->next = NULL;
-        last = last->next = newNode;
+        last = last->next = newNode; //이부분이 이해가안감!
+        //last->next=newNode;
+        //last=newNode; 27 28을 26한줄로 만든것
     }
 }
 
@@ -67,7 +69,7 @@ int main(void) {
             scanf(" %c", &c);
             Node* newNode = (Node*)malloc(sizeof(Node));
             newNode->val = c;
-            newNode->prev = cursor->prev;
+            newNode->prev = cursor->prev;// cursor->prev=NULL
             newNode->next = cursor;
             if (cursor == head) {
                 head = newNode;
