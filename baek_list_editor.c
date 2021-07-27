@@ -23,9 +23,15 @@ void addNode(char value) { //뒤에 삽입해줌
         newNode->val = value;
         newNode->prev = last;
         newNode->next = NULL;
-        last = last->next = newNode; //이부분이 이해가안감!
-        //last->next=newNode;
-        //last=newNode; 27 28을 26한줄로 만든것
+        last = last->next = newNode;
+        // addNode는 연결리스트의 맨 뒤에 삽입하는 함수
+        // newNode는 연결리스트의 맨 뒤에 삽입될 노드
+        // last->next는 기존에 NULL 값을 가지고 있는데,
+        // 새로 노드가 삽입되므로, 새로 생성한 노드의 주소를
+        // 기존에 last 포인터가 가리키는 노드의 next 링크에 할당함
+        // last 포인터도 새로 생성한 노드를 가리키도록 변경
+        // last->next = newNode;
+        // last = newNode;
     }
 }
 
@@ -56,7 +62,7 @@ int main(void) {
             if (cursor != head) {
                 if (cursor->prev != head) {
                     cursor->prev->prev->next = cursor;
-                    cursor->prev=cursor->prev->prev;
+                    cursor->prev = cursor->prev->prev;
                 }
                 else {
                     cursor->prev = head;
@@ -69,7 +75,7 @@ int main(void) {
             scanf(" %c", &c);
             Node* newNode = (Node*)malloc(sizeof(Node));
             newNode->val = c;
-            newNode->prev = cursor->prev;// cursor->prev=NULL
+            newNode->prev = cursor->prev;// ??newNode->prev = NULL이 왜 아닌지??
             newNode->next = cursor;
             if (cursor == head) {
                 head = newNode;
