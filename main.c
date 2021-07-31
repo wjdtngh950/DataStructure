@@ -1,23 +1,61 @@
 #include<stdio.h>
 
-typedef struct _Node{
-    int data;
-    struct _node* link;
-}Node;
+#define TRUE 1
+#define FALSE 0
+#define STACK_SIZE 110000
+int cnt;
+int sum;
+char stack[STACK_SIZE];
+int top = -1;
+
+int is_full() {
+    if (top == STACK_SIZE - 1) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+int is_empty() {
+    if (top == -1) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void push(int val) {
+    if (is_full()) {
+        return;
+    }
+    cnt++;
+    top++;
+    stack[top] = val;
+}
+
+int pop() {
+    cnt--;
+    if (is_empty()) {
+        return '\0';
+    }
+    return stack[top--]; //int rtn=stack[top]
+    //top —; return rtn;
+}
 
 int main(){
-    Node a, b, c, d;
-    a.data=10;
-    a.link=&b;
-    b.data=6;
-    b.link=&c;
-    c.data=4;
-    c.link=&d;
-    d.data=2;
-    d.link=NULL;
+    int N;
+    scanf("%d", &N);
 
-    for(Node* p =&a;p!=NULL;p=p->link){
-        printf("%d->", p->data);
+    for(int n=0;n<N;n++){
+        int m;
+        scanf("%d", &m);
+        if(m==0){
+            pop();
+        }
+        else{
+            push(m);
+        }
     }
-    return 0;
+    for(int i=0;i<cnt;i++){
+        sum+=stack[i];
+    }
+    printf("%d",sum);
 }
