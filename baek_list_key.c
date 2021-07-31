@@ -11,12 +11,12 @@ Node* head = NULL;
 Node* last = NULL;
 Node* cursor = NULL;
 
-void addNode(char value) { //커서의 왼쪽에 삽
+void addNode(char value) { //커서의 왼쪽에 삽처럼
     if (cursor == head) {
-        head = (Node*)malloc(sizeof(Node));
+        head = (Node*)malloc(sizeof(Node)); //last는 왜 동적할당 안하는지 ??
         head->val = value;
         head->prev = NULL;
-        head->next = cursor;
+        head->next = cursor; //왜지?? head->prev는 NULL인데?? //왼쪽에 삽입해주는거라??
         cursor->prev = head;
     }
     else {
@@ -47,6 +47,7 @@ int main(void) {
         cursor->prev = NULL;
         cursor->next = NULL; // 새로운 노드 '$' 생성 & 초기화
         head = last = cursor; // 비어있는 연결리스트에 노드 삽입 //46~49 한번밖에안쓰이는거라 굳이 에드노드말고 한번만넣어준거
+        //last =head=cursor 처럼 순서 바뀌어도 되나?
         for (int i = 0; buf[i] != '\0'; i++) {
             if (buf[i] == '<') {
                 if (cursor != head) {
@@ -60,7 +61,7 @@ int main(void) {
             }
             else if (buf[i] == '-') {
                 if (cursor!=head) { // 삭제할 수 있는 노드가 있는지 확인
-                    if (cursor->prev->prev == NULL) { // 삭제할 노드가 헤드
+                    if (cursor->prev->prev == NULL) { // 삭제할 노드가 헤드 //cursor->prev==head
                         head = cursor;
                     }
                     else {
