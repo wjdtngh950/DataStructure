@@ -53,8 +53,7 @@ int main(void) {
             if (buf[i] == '(') {
                 // push
                 push(buf[i]);
-            }
-            else {
+            } else {
                 if (is_empty()) {
                     error = TRUE;
                     break;
@@ -67,8 +66,7 @@ int main(void) {
         }
         if (error == TRUE) {
             printf("NO\n");
-        }
-        else {
+        } else {
             printf("YES\n");
         }
     }
