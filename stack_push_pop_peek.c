@@ -9,7 +9,7 @@ int top = -1;
 
 // is_full 스택이 가득찬지 확인
 int is_full() {
-    if (top == STACK_SIZE - 1) {
+    if (top == STACK_SIZE - 1) { //왜였지..?
         return TRUE;
     } else {
         return FALSE;
@@ -39,7 +39,7 @@ int pop() {
     }
     int rtn = stack[top];
     top--;
-    return rtn; //15~17은 간단하게 이렇게 표현 가능 return stack[top--];
+    return rtn; //37~42은 간단하게 이렇게 표현 가능 return stack[top--];
 }
 
 int peek() {
