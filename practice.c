@@ -2,7 +2,7 @@
 
 #define TRUE 1
 #define FALSE 0
-#define STACK_SIZE 110000
+#define STACK_SIZE 1100000
 
 int stack[STACK_SIZE];
 int top=-1;
@@ -31,9 +31,9 @@ void push(int val){
 
 int pop(){
     if(is_empty()){
-        return '\0';
+        return -1;
     }
-    int rtn=stack[top];
+    int rtn= stack[top];
     top--;
     return rtn;
     //return stack[top--];
@@ -41,9 +41,8 @@ int pop(){
 
 int main(){
     int N;
-    int sum=0;
     scanf("%d", &N);
-
+    int sum=0;
     for(int n=0;n<N;n++){
         int m;
         scanf("%d", &m);
@@ -54,6 +53,11 @@ int main(){
             push(m);
         }
     }
-
+    for(int i=0; i<=top;i++){
+        sum+=stack[i];
+    }
+    printf("%d", sum);
     return 0;
+
 }
+
