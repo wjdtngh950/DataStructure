@@ -49,7 +49,7 @@ int main(){
         int m;
         scanf("%d", &m);
         if(m==0){
-            sum-=pop()
+            sum-=pop() // 이거 다시그림으로 설명 요함 ...
         }
         else{
             push(m);
