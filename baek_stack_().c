@@ -61,7 +61,7 @@ int main(void) {
                 pop();
             }
         }
-        if (!is_empty()) {
+        if (!is_empty()) { //= if(!(top==-1)) = if(top!=-1)
             error = TRUE;
         }
         if (error == TRUE) {
