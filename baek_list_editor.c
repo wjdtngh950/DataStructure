@@ -42,7 +42,7 @@ int main(void) {
         addNode(buf[i]);
     }
     addNode('$');
-    cursor = last;
+    cursor = last; //커서는 동적할당이 필요없는지 왜 ??
     int M;
     scanf("%d", &M);
     for (int m = 0; m < M; m++) {
@@ -65,11 +65,18 @@ int main(void) {
                     cursor->prev = cursor->prev->prev;
                 }
                 else {
-                    cursor->prev = head;
+                    cursor->prev = head; //cursor->next=cursor 는 왜 안하지 ??
                     head = cursor;
                 }
             }
         }
+            // if (cursor->prev == head) {
+            //   cursor->prev=head;
+            // cursor = head;
+            //} else {
+            //  cursor->prev->prev->next = cursor;
+            // cursor->prev = cursor->prev->prev;
+            //이건왜안되지??
         else {
             char c;
             scanf(" %c", &c);
