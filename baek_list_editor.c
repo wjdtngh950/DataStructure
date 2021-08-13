@@ -65,18 +65,12 @@ int main(void) {
                     cursor->prev = cursor->prev->prev;
                 }
                 else {
-                    cursor->prev = head; //cursor->next=cursor 는 왜 안하지 ??
+                    cursor->prev = head;
                     head = cursor;
+                    //68항대신 cursor ->prev =NULL 로 해도되는지?
                 }
             }
         }
-            // if (cursor->prev == head) {
-            //   cursor->prev=head;
-            // cursor = head;
-            //} else {
-            //  cursor->prev->prev->next = cursor;
-            // cursor->prev = cursor->prev->prev;
-            //이건왜안되지??
         else {
             char c;
             scanf(" %c", &c);
