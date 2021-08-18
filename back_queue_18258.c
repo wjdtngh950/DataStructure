@@ -2,7 +2,7 @@
 
 #define TRUE 1
 #define FALSE 0
-#define QUEUE_SIZE 1100000
+#define QUEUE_SIZE 2000001
 
 int queue[QUEUE_SIZE];
 int front =-1;
@@ -63,7 +63,7 @@ int main(){
                 printf("0\n");
             }
             else {
-                printf("%d\n", rear + 1);
+                printf("%d\n", rear-front);
             }
         }
         else if(buf[0]=='e'){
