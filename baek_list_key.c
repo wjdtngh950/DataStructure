@@ -13,11 +13,11 @@ Node* cursor = NULL;
 
 void addNode(char value) { //커서의 왼쪽에 삽처럼
     if (cursor == head) {
-        head = (Node*)malloc(sizeof(Node)); //last는 왜 동적할당 안하는지 ??
+        head = (Node*)malloc(sizeof(Node)); //last는 왜 동적할당 안하는지 ?? 8/22
         head->val = value;
         head->prev = NULL;
-        head->next = cursor; //왜지?? head->prev는 NULL인데?? //왼쪽에 삽입해주는거라??
-        cursor->prev = head;
+        head->next = cursor; //왜지?? head->prev는 NULL인데?? //왼쪽에 삽입해주는거라?? 8/22
+        cursor->prev = head; //이것도...? 8/22
     }
     else {
         Node* newNode = (Node*)malloc(sizeof(Node));
@@ -74,6 +74,18 @@ int main(void) {
                     // if / else 구문 모두 적용해야 하는 코드(69 Line)
                 }
             }
+            /*else if(buf[i]=='-'){   //이렇게도 쓸 수 있음! '-'
+                if(cursor!=head){
+                    if(cursor->prev!=head){
+                        cursor->prev->prev->next=cursor;
+                        cursor->prev=cursor->prev->prev;
+                    }
+                    else{
+                        head=cursor;
+                        cursor->prev=NULL;
+                    }
+                }
+            }*/
             else {
                 addNode(buf[i]);
             }
