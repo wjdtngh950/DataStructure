@@ -42,7 +42,7 @@ int main(void) {
         addNode(buf[i]);
     }
     addNode('$');
-    cursor = last; //커서는 동적할당이 필요없는지 왜 ??
+    cursor = last; //커서는 동적할당이 필요없는지 왜 ??->8/22
     int M;
     scanf("%d", &M);
     for (int m = 0; m < M; m++) {
@@ -65,9 +65,8 @@ int main(void) {
                     cursor->prev = cursor->prev->prev;
                 }
                 else {
-                    cursor->prev = head;
                     head = cursor;
-                    //68항대신 cursor ->prev =NULL 로 해도되는지?
+                    cursor->prev=NULL;
                 }
             }
         }
