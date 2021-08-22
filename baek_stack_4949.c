@@ -1,4 +1,4 @@
-#include<stdio.h>
+#include<stdio.h> //제출 c11 로 하기
 
 #define TRUE 1
 #define FALSE 0
