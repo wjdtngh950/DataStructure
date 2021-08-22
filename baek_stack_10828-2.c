@@ -25,21 +25,19 @@ int is_empty() {
     return FALSE;
 }
 
-void push(int val) {
-    if (is_full()) {
+void push(int val){
+    if(is_full()){
         return;
     }
-    top++;
-    stack[top] = val;
+
+    stack[++top]=val;
 }
 
-int pop() {
-    if (is_empty()) {
+int pop(){
+    if(is_empty()){
         return -1;
     }
-    int rtn = stack[top];
-    top--;
-    return rtn;
+    return stack[top--];
 }
 
 int main() {
