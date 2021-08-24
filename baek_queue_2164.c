@@ -47,7 +47,7 @@ int main(){
     }
     for(int j=1;j<=N-1;j++){
         dequeue();
-        enqueue(dequeue());
+        enqueue(dequeue()); //그림으로 설명 요함 8/23
     }
     printf("%d", queue[rear]);
 
