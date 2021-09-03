@@ -9,7 +9,7 @@ int front = -1;
 int rear = -1;
 int stack[SIZE];
 int queue[SIZE];
-dd
+
 int DFS_full() {
     if (top == SIZE - 1) {
         return TRUE;
