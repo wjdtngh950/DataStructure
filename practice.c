@@ -1,14 +1,13 @@
-#include "stdio.h"
+#include<stdio.h>
 
 #define TRUE 1
 #define FALSE 0
 #define SIZE 1100000
-
 int top = -1;
 int front = -1;
 int rear = -1;
-int stack[SIZE];
 int queue[SIZE];
+int stack[SIZE];
 
 int DFS_full() {
     if (top == SIZE - 1) {
@@ -60,20 +59,20 @@ int pop() {
 }
 
 int dequeue() {
-    if (BFS_full()) {
+    if (BFS_empty()) {
         return -1;
     }
     return queue[++front];
 }
 
-int visitDFS[1001];
-int visitBFS[1001];
 int edge[1001][1001];
+int DFS_visit[1001];
+int BFS_visit[1001];
 
 int main() {
     int N, M, V;
     scanf("%d %d %d", &N, &M, &V);
-    for (int i = 0; i < M; i++) {
+    for (int m = 0; m < M; m++) {
         int v1, v2;
         scanf("%d %d", &v1, &v2);
         edge[v1][v2] = TRUE;
@@ -81,14 +80,14 @@ int main() {
     }
     //DFS
     push(V);
-    while (!(DFS_empty())){
-        int v=pop();
-        if(!(visitDFS[v])){
-            visitDFS[v]=TRUE;
+    while (!DFS_empty()) {
+        int v = pop();
+        if (!DFS_visit[v]) {
+            DFS_visit[v] = TRUE;
             printf("%d ", v);
-            for(int w=N;w>0;w--){
-                if(!(visitDFS[w])){
-                    if(edge[v][w]==TRUE){
+            for (int w = N; w > 0; w--) {
+                if (!DFS_visit[w]) {
+                    if (edge[v][w] == TRUE) {
                         push(w);
                     }
                 }
@@ -96,23 +95,22 @@ int main() {
         }
     }
     printf("\n");
-    //BFS
+
     enqueue(V);
-    while (!(BFS_empty())){
-        int v=dequeue();
-        if(!(visitBFS[v])){
-            visitBFS[v]=TRUE;
+    while (!BFS_empty()) {
+        int v = dequeue();
+        if (!BFS_visit[v]) {
+            BFS_visit[v] = TRUE;
             printf("%d ", v);
-            for(int w=1;w<=N;w++){
-                if(!visitBFS[w]){
-                    if(edge[v][w]==TRUE){
+            for (int w = 1; w <= N; w++) {
+                if (!BFS_visit[w]) {
+                    if (edge[v][w] == TRUE) {
                         enqueue(w);
                     }
                 }
             }
         }
     }
-
-
     return 0;
 }
+
