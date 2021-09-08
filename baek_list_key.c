@@ -13,11 +13,14 @@ Node* cursor = NULL;
 
 void addNode(char value) { //커서의 왼쪽에 삽처럼
     if (cursor == head) {
-        head = (Node*)malloc(sizeof(Node)); //last는 왜 동적할당 안하는지 ?? 8/22
-        head->val = value;
-        head->prev = NULL;
-        head->next = cursor; //왜지?? head->prev는 NULL인데?? //왼쪽에 삽입해주는거라?? 8/22
-        cursor->prev = head; //이것도...? 8/22
+        //Node* newNode = (Node*)malloc(sizeof(Node));
+        //head = newNode;
+        // 19라인을 줄여서 씀
+        head = (Node*)malloc(sizeof(Node));
+        head->val = value; // 새로 생성한 노드에 값을 넣어줌
+        head->prev = NULL; // 새로 생성한 노드의 prev링크를 NULL값으로 초기화
+        head->next = cursor; // 새로 생성한 노드의 next링크를 cursor가 가리키고 있는 노드로 지정
+        cursor->prev = head; // 커서가 가리키고 있는 노드의 prev링크를 새로 생성한 노드로 지정
     }
     else {
         Node* newNode = (Node*)malloc(sizeof(Node));
@@ -60,7 +63,7 @@ int main(void) {
                 }
             }
             else if (buf[i] == '-') {
-                if (cursor!=head) { // 삭제할 수 있는 노드가 있는지 확인
+                if (cursor != head) { // 삭제할 수 있는 노드가 있는지 확인
                     if (cursor->prev->prev == NULL) { // 삭제할 노드가 헤드 //cursor->prev==head
                         head = cursor;
                     }
@@ -74,18 +77,18 @@ int main(void) {
                     // if / else 구문 모두 적용해야 하는 코드(69 Line)
                 }
             }
-            /*else if(buf[i]=='-'){   //이렇게도 쓸 수 있음! '-'
-                if(cursor!=head){
-                    if(cursor->prev!=head){
-                        cursor->prev->prev->next=cursor;
-                        cursor->prev=cursor->prev->prev;
+                /*else if(buf[i]=='-'){   //이렇게도 쓸 수 있음! '-'
+                    if(cursor!=head){
+                        if(cursor->prev!=head){
+                            cursor->prev->prev->next=cursor;
+                            cursor->prev=cursor->prev->prev;
+                        }
+                        else{
+                            head=cursor;
+                            cursor->prev=NULL;
+                        }
                     }
-                    else{
-                        head=cursor;
-                        cursor->prev=NULL;
-                    }
-                }
-            }*/
+                }*/
             else {
                 addNode(buf[i]);
             }
