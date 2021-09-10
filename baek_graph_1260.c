@@ -85,7 +85,7 @@ int main() {
         if (!DFS_visit[v]) {
             DFS_visit[v] = TRUE;
             printf("%d ", v);
-            for (int w = N; w > 0; w--) {
+            for (int w = N; w > 0; w--) { //왜 반대로했더라 ?? 9/10
                 if (!DFS_visit[w]) {
                     if (edge[v][w] == TRUE) {
                         push(w);
