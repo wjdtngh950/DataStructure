@@ -50,13 +50,14 @@ int bfs() {
         if (arr[cx][cy] == 0) { // arr[curx][cury]에 방문하지 않았으면,
             arr[cx][cy] = 1; // 방문처리
             answer = cd;
-            n_tomato--;
+            n_tomato--; //->☆☆☆9/27 토마토를 빼주는 이유? 익었으니까??
             for (int k = 0; k < 4; k++) {
                 int nx = cx + dx[k];
                 int ny = cy + dy[k];
                 if (0 <= nx && nx < N && 0 <= ny && ny < M) { // 배열 내부 체크
+                    // ->☆☆☆9/27((0 <= nx && nx < N) && (0 <= ny && ny < M)) 는 왜안될까??
                     if (arr[nx][ny] == 0) {
-                        enqueue(nx, ny, cd + 1);
+                        enqueue(nx, ny, cd + 1); //->☆☆☆9/27 59항 60항이 뭘뜻하는지?
                     }
                 }
             }
