@@ -50,7 +50,7 @@ int bfs() {
         if (arr[cx][cy] == 0) { // arr[curx][cury]에 방문하지 않았으면,
             arr[cx][cy] = 1; // 방문처리
             answer = cd;
-            n_tomato--; //익었으니까??
+            n_tomato--; //익었으니까
             for (int k = 0; k < 4; k++) {
                 int nx = cx + dx[k];
                 int ny = cy + dy[k];
