@@ -34,7 +34,7 @@ void dfs() {
     while (top != -1) {
         int cur_y, cur_x;
         pop(&cur_y, &cur_x);
-        if (!visit[cur_y][cur_x]) {
+        if (visit[cur_y][cur_x]==0) {
             visit[cur_y][cur_x] = TRUE;
             cnt++;
             for (int k = 0; k < 4; k++) {
