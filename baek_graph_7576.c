@@ -36,7 +36,7 @@ void get_input() {
             else if(arr[i][j] == 1){
                 n_tomato++;
                 enqueue(i, j, 0); // i, j 위치의 토마토는 0일에 익는다.
-                arr[i][j] = 0; //->☆☆☆9/27 이건 왜??
+                arr[i][j] = 0; //-> BFS에서 방문검사를위해 초기화해줘야함
             }
         }
     }
@@ -45,19 +45,19 @@ void get_input() {
 int bfs() {
     int answer = 0;
     while (front != rear) {
-        int cx, cy, cd; //->☆☆☆9/27 이게 뭘 뜻하는지 잘 모르겠음
+        int cx, cy, cd; //38항에서 enqueue해준걸 빼오는것(i,j,0)
         dequeue(&cx, &cy, &cd);
         if (arr[cx][cy] == 0) { // arr[curx][cury]에 방문하지 않았으면,
             arr[cx][cy] = 1; // 방문처리
             answer = cd;
-            n_tomato--; //->☆☆☆9/27 토마토를 빼주는 이유? 익었으니까??
+            n_tomato--; //익었으니까??
             for (int k = 0; k < 4; k++) {
                 int nx = cx + dx[k];
                 int ny = cy + dy[k];
                 if (0 <= nx && nx < N && 0 <= ny && ny < M) { // 배열 내부 체크
-                    // ->☆☆☆9/27((0 <= nx && nx < N) && (0 <= ny && ny < M)) 는 왜안될까??
-                    if (arr[nx][ny] == 0) {
-                        enqueue(nx, ny, cd + 1); //->☆☆☆9/27 59항 60항이 뭘뜻하는지?
+                    // ==((0 <= nx && nx < N) && (0 <= ny && ny < M))
+                    if (arr[nx][ny] == 0) { //현재 위치와 인접(상하좌우)한위치에아직 익지않은 토마토가 존재하는 경우
+                        enqueue(nx, ny, cd + 1); //해당 위치를 큐에 삽입(인접한 토마토는 다음날에 익는다)
                     }
                 }
             }
