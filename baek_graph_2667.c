@@ -7,7 +7,7 @@ typedef int boolean;
 
 int N;
 int map[25][25];
-boolean visit[25][25]; //->9/29 토마토와 다르게 여긴 왜 visit를 사용했는지> 그냥 map로 처리하면 안되나?
+boolean visit[25][25]; //
 int home_count[110000];
 int length;
 
@@ -34,16 +34,19 @@ void dfs() {
     while (top != -1) {
         int cx, cy;
         pop(&cx, &cy);
-        if (visit[cx][cy]==0) {
+        if (visit[cx][cy] == 0) {
             visit[cx][cy] = TRUE;
             cnt++;
             for (int k = 0; k < 4; k++) {
                 int nx = cx + dx[k];
                 int ny = cy + dy[k];
                 if (0 <= nx && nx < N && 0 <= ny && ny < N) {
-                    if (map[nx][ny] == 1) { //9/29 ->44-46항이 이해가안감 뭘뜻하는지..? 왜 ==0이아닌지?
-                        if (!visit[nx][ny]) {
-                            push(nx, ny);
+                    // map[nx][ny] == 1인 위치는 집이 존재하고
+                    // map[nx][ny] == 0인 위치는 집이 존재하지 않는다.
+                    // dfs 탐색은 인접한 모든 집에 한번 씩 방문하는 것이 목적이므로
+                    if (map[nx][ny] == 1) { // 새로 계산한 좌표에 집이 있는지 확인하고 //-토마토는방문의여부였고 여기는 집의존재여부
+                        if (!visit[nx][ny]) { // 해당 집에 방문했는지 확인한 뒤
+                            push(nx, ny); // 방문하지 않은 경우 스택에 푸시한다.
                         }
                     }
                 }
@@ -52,7 +55,6 @@ void dfs() {
     }
     home_count[length++] = cnt;
 }
-
 void swap(int* v1, int* v2) {
     int tmp = *v1;
     *v1 = *v2;
