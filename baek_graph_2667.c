@@ -41,7 +41,7 @@ void dfs() {
                 int next_y = cur_y + dy[k];
                 int next_x = cur_x + dx[k];
                 if (0 <= next_y && next_y < N && 0 <= next_x && next_x < N) {
-                    if (map[next_y][next_x] == 1) {
+                    if (map[next_y][next_x] == 1) { //->44-46항이 이해가안감 뭘뜻하는지..? 왜 ==0이아닌지?
                         if (!visit[next_y][next_x]) {
                             push(next_y, next_x);
                         }
@@ -82,7 +82,7 @@ int main(void) {
         }
     }
 
-    for (int y = 0; y < N; y++) {
+    for (int y = 0; y < N; y++) { //85항부터가 무슨역할을하는지 ??
         for (int x = 0; x < N; x++) {
             if (map[y][x] == 1) { // 집
                 if (visit[y][x] == FALSE) {
