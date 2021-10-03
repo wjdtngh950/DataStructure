@@ -84,8 +84,7 @@ int main(void) {
         }
     }
 
-    for (int x = 0; x < N; x++) { //->9/29 85항부터가 무슨역할을하는지 ??
-                                  // 토마토같은경우는 get_input에서 바로 푸쉬를해줬는데 왜 73항 85항여긴 따로 ??
+    for (int x = 0; x < N; x++) { //
         for (int y = 0; y < N; y++) {
             if (map[x][y] == 1) { // 집
                 if (visit[x][y] == FALSE) {
