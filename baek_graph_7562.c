@@ -31,7 +31,7 @@ void get_input() {
     scanf("%d", &N);
     scanf("%d %d", &m, &M);
     scanf("%d %d", &l, &L);
-    enqueue(m, M, 0);
+    enqueue(m, M, 0); //나이트의 처음갯수는 0
 }
 
 void bfs() {
