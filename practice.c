@@ -1,89 +1,73 @@
 #include<stdio.h>
-
 #define TRUE 1
 #define FALSE 0
 #define SIZE 5500000
 
-int worm;
-int top = -1;
-int stack[SIZE][2];
-int N, M, K;
-int map[50][50];
-int visit[50][50];
-int dx[4] = {-1, 1, 0, 0};
-int dy[4] = {0, 0, 1, -1};
 
-void push(int x, int y) {
-    top++;
-    stack[top][0] = x;
-    stack[top][1] = y;
+int front = -1;
+int rear = -1;
+int queue[SIZE][3];
+int dx[4]={-1,1,0,0};
+int dy[4]={0,0,-1,1};
+int N, M;
+int map[101][101];
+int visit[101][101];
+int cnt;
+
+void enqueue(int x, int y, int d){
+    rear++;
+    queue[rear][0]=x;
+    queue[rear][1]=y;
+    queue[rear][2]=d;
 }
 
-void pop(int *x, int *y) {
-    *x = stack[top][0];
-    *y = stack[top][1];
-    top--;
+void dequeue(int *x, int *y, int *d){
+    front++;
+    *x=queue[front][0];
+    *y=queue[front][1];
+    *d=queue[front][2];
 }
 
-void get_input() {
-    scanf("%d %d %d", &M, &N, &K);
-    for (int i = 0; i < K; i++) {
-        int v1, v2;
-        scanf("%d %d", &v1, &v2);
-        map[v2][v1] = 1;
+void get_input(){
+    scanf("%d %d", &N, &M);
+    for(int i=0;i<N;i++){
+        for(int j=0;j<M;j++){
+            char c;
+            scanf(" %c", &c);
+            map[i][j]=c -'0';
+        }
     }
 }
 
-void dfs() {
-    while (top!=-1) {
-        int cx, cy;
-        pop(&cx, &cy);
+int bfs(){
+    while (front!=rear) {
+        int cx, cy, cd;
+        dequeue(&cx, &cy, &cd);
         if (visit[cx][cy] == FALSE) {
             visit[cx][cy] = TRUE;
-            for (int k = 0; k < 4; k++) {
-                int nx, ny;
-                nx = cx + dx[k];
-                ny = cy + dy[k];
-                if (0 <= nx && nx < N && 0 <= ny && ny < M) {
-                    if (map[nx][ny] == TRUE) {
-                        if (visit[nx][ny] == FALSE) {
-                            push(nx, ny);
+            cnt = cd;
+            if (cx == N - 1 && cy == M - 1) break;
+            for(int k=0;k<4;k++){
+                int nx=cx+dx[k];
+                int ny=cy+dy[k];
+                if(0<=nx&&nx<N&&0<=ny&&ny<M){
+                    if(map[nx][ny]==1){
+                        if(visit[nx][ny]==0){
+                            enqueue(nx, ny, cd+1);
                         }
                     }
                 }
             }
         }
     }
-    worm++;
+    return cnt;
 }
 
-void test(){
-    for(int i=0;i<50;i++){
-        for(int j=0;j<50;j++){
-            map[i][j]=0;
-            visit[i][j]=0;
-        }
-    }
-    worm=0;
-}
+int main(){
+    get_input();
+    enqueue(0, 0, 1);
+    bfs();
 
-int main() {
-    int t;
-    scanf("%d", &t);
-    for(int p=0;p<t;p++) {
-     test();
-     get_input();
-     for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                if (map[i][j] == 1) {
-                    if (visit[i][j] == 0) {
-                        push(i, j);
-                        dfs();
-                    }
-                }
-            }
-        }
-        printf("%d\n", worm);
-    }
+    printf("%d", cnt);
     return 0;
 }
