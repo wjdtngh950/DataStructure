@@ -39,7 +39,7 @@ int main() {
         cursor->val = '$';
         cursor->prev = NULL;
         cursor->next = NULL;
-        last = head = cursor;
+        head=last = cursor;
         for (int i = 0; buf[i] != '\0'; i++) {
             if (buf[i] == '<') {
                 if (cursor != head) {
