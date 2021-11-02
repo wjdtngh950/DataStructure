@@ -1,92 +1,92 @@
 #include<stdio.h>
+#include<stdlib.h>
 
-#define TRUE 1
-#define FALSE 0
-#define SIZE 5500000
+typedef struct _Node{
+    char val;
+    struct _Node* prev;
+    struct _Node* next;
+}Node;
 
-int top= -1;
-int front = -1;
-int rear = -1;
-int stack[SIZE];
-int queue[SIZE];
+Node* head;
+Node* last;
+Node* cursor;
 
-int edge[1001][1001];
-int visit[1001];
-int visit2[1001];
-
-int N, M, K;
-
-void push(val1){
-    top++;
-    stack[top]=val1;
-}
-
-int pop(){
-    return stack[top--];
-}
-
-void enqueue(val2){
-    rear++;
-    queue[rear]=val2;
-}
-
-int dequeue(){
-   return queue[++front];
+void addNode(char value){
+    if(head==NULL){
+        last=head=(Node*) malloc(sizeof (Node));
+        head->val=value;
+        head->prev=NULL;
+        head->next=NULL;
+    }
+    else{
+        Node* newNode=(Node*) malloc(sizeof (Node));
+        newNode->val=value;
+        newNode->prev=last;
+        newNode->next=NULL;
+        last->next=newNode;
+        last=newNode;
+    }
 }
 
 void get_input(){
-   scanf("%d %d %d", &N, &M, &K);
-   for(int i =0;i<M;i++){
-       int v1, v2;
-       scanf("%d %d", &v1, &v2);
-       edge[v1][v2]=TRUE;
-       edge[v2][v1]=TRUE;
-   }
-}
-
-void dfs(){
-    push(K);
-    while (top!=-1){
-        int v=pop();
-        if(visit2[v]==FALSE){
-            visit2[v]=TRUE;
-            printf("%d ", v);
-            for(int w=N;w>0;w--){
-                if(edge[v][w]==TRUE){
-                    if(visit2[w]==FALSE){
-                        push(w);
-                    }
-                }
-            }
-        }
+    char buf[1100000];
+    scanf("%s", buf);
+    for(int i=0;buf[i]!='\0';i++){
+        addNode(buf[i]);
     }
-}
-
-void bfs(){
-    enqueue(K);
-    while (front!=rear){
-        int v1=dequeue();
-        if(visit[v1]==FALSE){
-            visit[v1]=TRUE;
-            printf("%d ", v1);
-            for(int w=1;w<=N;w++){
-                if(edge[v1][w]==TRUE){
-                    if(visit[w]==FALSE){
-                        enqueue(w);
-                    }
-                }
-            }
-        }
-    }
+    addNode('$');
 }
 
 int main(){
     get_input();
-    dfs();
+    cursor=last;
+    int N;
+    scanf("%d", &N);
+    for(int i=0;i<N;i++){
+        char c;
+        scanf(" %c", &c);
+        if(c=='L'){
+            if(cursor->prev!=NULL){ // (cursor!=head)
+                cursor=cursor->prev;
+            }
+        }
+        else if(c=='D'){
+            if(cursor->next!=last){ //(cursor!=last)
+                cursor=cursor->next;
+            }
+        }
+        else if(c=='B'){
+            if(cursor!=head){
+                if(cursor->prev!=head){
+                    cursor->prev=cursor->prev->prev;
+                    cursor->prev->next=cursor;
+                }
+                else{
+                    head=cursor;
+                    cursor->prev=NULL;
+                }
+            }
+        }
+        else{
+            char c2;
+            scanf(" %c", &c2);
+            Node* newNode=(Node*) malloc(sizeof (Node));
+            newNode->val=c2;
+            newNode->prev=cursor->prev;
+            newNode->next=cursor;
+            if(head==cursor){
+                head=newNode;
+            }
+            else{
+                cursor->prev->next=newNode;
+            }
+            cursor->prev=newNode;
+        }
+    }
+    for(Node* p=head;p->val!='$';p=p->next){
+        printf("%c", p->val);
+    }
     printf("\n");
-    bfs();
     return 0;
 }
-
-
 
