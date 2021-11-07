@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.19)
-project(DataStructure C)
+cmake_minimum_required(VERSION 3.20)
+project(DataStructure2)
 
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 17)
 
 add_executable(DataStructure practice.c)
