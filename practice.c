@@ -1,65 +1,78 @@
-
-#include<stdio.h>
+#include <stdio.h>
 
 #define TRUE 1
 #define FALSE 0
-#define STACK_SIZE 1100000
+#define SIZE 5500000
 
-int stack[STACK_SIZE];
-int top = -1;
+int front = -1;
+int rear = -1;
+int queue[SIZE][3];
+int dx[8] = { -2, -1,  1,  2,  2,  1, -1, -2 }; //나이트의 이동범위만 적어주면됨 한번에 이동할 수 있는 거리
+int dy[8] = {  1,  2,  2,  1, -1, -2, -2, -1 };
+int visit[310][310];
+int T, N, m, M, l, L;
+int knight = 0;
 
-int is_full() {
-    if (top == STACK_SIZE - 1) {
-        return TRUE;
-    }
-    return FALSE;
+void enqueue(int x, int y, int d) {
+    rear++;
+    queue[rear][0] = x;
+    queue[rear][1] = y;
+    queue[rear][2] = d;
 }
 
-int is_empty() {
-    if (top == -1) {
-        return TRUE;
-    }
-    return FALSE;
+void dequeue(int* x, int* y, int* d) {
+    front++;
+    *x = queue[front][0];
+    *y = queue[front][1];
+    *d = queue[front][2];
 }
 
-void push(int val){
-    if(is_full()){
-        return;
-    }
-
-    stack[++top]=val;
-}
-
-int pop(){
-    if(is_empty()){
-        return -1;
-    }
-    return stack[top--];
-}
-
-int main() {
-    int N;
+void get_input() {
     scanf("%d", &N);
-    for (int i = 0; i < N; i++) {
-        char buf[6];
-        scanf("%s", buf);
-        if (buf[0] == 'p' && buf[1] == 'u') {
-            int X;
-            scanf("%d", &X);
-            push(X);
-        } else if (buf[0] == 'p' && buf[1] == 'o') {
-            printf("%d\n", pop());
-        } else if (buf[0] == 's') {
-            printf("%d\n", top + 1);
-        } else if (buf[0] == 'e') {
-            printf("%d\n", is_empty());
-        } else if(buf[0]=='t'){
-            if (!(is_empty())) {
-                printf("%d\n", stack[top]);
-            } else {
-                printf("-1\n");
+    scanf("%d %d", &m, &M);
+    scanf("%d %d", &l, &L);
+    enqueue(m, M, 0); //나이트의 처음갯수는 0
+}
+
+void bfs() {
+    while (front != rear) {
+        int cx, cy, cd;
+        dequeue(&cx, &cy, &cd);
+        if (visit[cx][cy] == 0) {
+            visit[cx][cy] = 1;
+            knight = cd;
+            if (cx == l && cy == L) break;
+            for (int k = 0; k < 8; k++) {
+                int nx = cx + dx[k];
+                int ny = cy + dy[k];
+                if (0 <= nx && nx < N && 0 <= ny && ny < N) {
+                    if (visit[nx][ny] == 0) {
+                        enqueue(nx, ny, cd + 1);
+                    }
+                }
             }
         }
     }
+}
+
+void init() {
+    front = rear = -1;
+    for (int i = 0; i < 300; i++) {
+        for (int j = 0; j < 300; j++) {
+            visit[i][j] = 0;
+        }
+    }
+}
+
+int main() {
+    scanf("%d", &T);
+
+    for (int tc = 0; tc < T; tc++) {
+        init();
+        get_input();
+        bfs();
+        printf("%d\n", knight);
+    }
+
     return 0;
 }
