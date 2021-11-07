@@ -1,100 +1,65 @@
-#include <iostream>
+
 #include<stdio.h>
-#include<stdlib.h>
 
-using namespace std;
+#define TRUE 1
+#define FALSE 0
+#define STACK_SIZE 1100000
 
-struct Node{
-    char val;
-    Node* prev;
-    Node* next;
-};
+int stack[STACK_SIZE];
+int top = -1;
 
-Node* head;
-Node* last;
-Node* cursor;
-
-void addNode(char value){
-    if(head==NULL){
-        last = head = new Node;
-        head->val=value;
-        head->prev=NULL;
-        head->next=NULL;
+int is_full() {
+    if (top == STACK_SIZE - 1) {
+        return TRUE;
     }
-    else{
-        Node* newNode= new Node;
-        newNode->val=value;
-        newNode->prev=last;
-        newNode->next=NULL;
-        last->next=newNode;
-        last=newNode;
-    }
+    return FALSE;
 }
 
-void get_input(){
-    char buf[1100000];
-    //scanf("%s", buf);
-    cin >> buf;
-    for(int i=0;buf[i]!='\0';i++){
-        addNode(buf[i]);
+int is_empty() {
+    if (top == -1) {
+        return TRUE;
     }
-    addNode('$');
+    return FALSE;
 }
 
-int main(){
-    get_input();
-    cursor=last;
+void push(int val){
+    if(is_full()){
+        return;
+    }
+
+    stack[++top]=val;
+}
+
+int pop(){
+    if(is_empty()){
+        return -1;
+    }
+    return stack[top--];
+}
+
+int main() {
     int N;
-    //scanf("%d", &N);
-    cin >> N;
-    for(int i=0;i<N;i++){
-        char c;
-        //scanf(" %c", &c);
-        cin >> c;
-        if(c=='L'){
-            if(cursor->prev!=NULL){ // (cursor!=head)
-                cursor=cursor->prev;
+    scanf("%d", &N);
+    for (int i = 0; i < N; i++) {
+        char buf[6];
+        scanf("%s", buf);
+        if (buf[0] == 'p' && buf[1] == 'u') {
+            int X;
+            scanf("%d", &X);
+            push(X);
+        } else if (buf[0] == 'p' && buf[1] == 'o') {
+            printf("%d\n", pop());
+        } else if (buf[0] == 's') {
+            printf("%d\n", top + 1);
+        } else if (buf[0] == 'e') {
+            printf("%d\n", is_empty());
+        } else if(buf[0]=='t'){
+            if (!(is_empty())) {
+                printf("%d\n", stack[top]);
+            } else {
+                printf("-1\n");
             }
-        }
-        else if(c=='D'){
-            if(cursor->next!=NULL){ //(cursor!=last)
-                cursor=cursor->next;
-            }
-        }
-        else if(c=='B'){
-            if(cursor!=head){
-                if(cursor->prev!=head){
-                    cursor->prev=cursor->prev->prev;
-                    cursor->prev->next=cursor;
-                }
-                else{
-                    head=cursor;
-                    cursor->prev=NULL;
-                }
-            }
-        }
-        else{
-            char c2;
-            scanf(" %c", &c2);
-            cin >> c2;
-            Node* newNode = new Node;
-            newNode->val=c2;
-            newNode->prev=cursor->prev;
-            newNode->next=cursor;
-            if(head==cursor){
-                head=newNode;
-            }
-            else{
-                cursor->prev->next=newNode;
-            }
-            cursor->prev=newNode;
         }
     }
-    for(Node* p=head;p->val!='$';p=p->next){
-        //printf("%c", p->val);
-        cout << p->val;
-    }
-    //printf("\n");
-    cout << endl;
     return 0;
 }
