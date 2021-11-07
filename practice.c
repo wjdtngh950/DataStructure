@@ -1,102 +1,100 @@
+#include <iostream>
 #include<stdio.h>
+#include<stdlib.h>
 
-#define TRUE 1
-#define FALSE 0
-#define SIZE 1100000
+using namespace std;
 
-int top = -1;
-int front = -1;
-int rear = -1;
+struct Node{
+    char val;
+    Node* prev;
+    Node* next;
+};
 
-int stack[SIZE];
-int queue[SIZE];
+Node* head;
+Node* last;
+Node* cursor;
 
-int DFS_full() {
-    if (top == SIZE - 1) {
-        return TRUE;
+void addNode(char value){
+    if(head==NULL){
+        last = head = new Node;
+        head->val=value;
+        head->prev=NULL;
+        head->next=NULL;
     }
-    return FALSE;
+    else{
+        Node* newNode= new Node;
+        newNode->val=value;
+        newNode->prev=last;
+        newNode->next=NULL;
+        last->next=newNode;
+        last=newNode;
+    }
 }
 
-int DFS_empty() {
-    if (top == -1) {
-        return TRUE;
+void get_input(){
+    char buf[1100000];
+    //scanf("%s", buf);
+    cin >> buf;
+    for(int i=0;buf[i]!='\0';i++){
+        addNode(buf[i]);
     }
-    return FALSE;
+    addNode('$');
 }
 
-int BFS_full() {
-    if (rear == SIZE - 1) {
-        return TRUE;
-    }
-    return FALSE;
-}
-
-int BFS_empty() {
-    if (front == rear) {
-        return TRUE;
-    }
-    return FALSE;
-}
-
-void push(int val1) {
-    if (DFS_full()) {
-        return;
-    }
-    stack[++top] = val1;
-}
-
-int pop() {
-    if (DFS_empty()) {
-        return -1;
-    }
-    return stack[top--];
-}
-
-void enqueue(int val2) {
-    if (BFS_full()) {
-        return;
-    }
-    queue[++rear] = val2;
-}
-
-int dequeue() {
-    if (BFS_empty()) {
-        return -1;
-    }
-    return queue[++front];
-}
-
-int edge[1001][1001];
-int BFS_visit[1001];
-
-int main() {
+int main(){
+    get_input();
+    cursor=last;
     int N;
-    int M;
-    int cnt=0;
-    scanf("%d %d", &N, &M);
-    for(int i=0;i<M;i++){
-        int v1, v2;
-        scanf("%d %d", &v1,&v2);
-        edge[v1][v2]=1;
-        edge[v2][v1]=1;
-    }
-    //BFS
-    enqueue(1);
-    while(!BFS_empty()){
-        int v=dequeue();
-        if(!BFS_visit[v]){
-            BFS_visit[v]=TRUE;
-            cnt++;
-            for(int w=1;w<=N;w++){
-                if(!BFS_visit[w]){
-                    if(edge[v][w]==TRUE){
-                        enqueue(w);
-                    }
+    //scanf("%d", &N);
+    cin >> N;
+    for(int i=0;i<N;i++){
+        char c;
+        //scanf(" %c", &c);
+        cin >> c;
+        if(c=='L'){
+            if(cursor->prev!=NULL){ // (cursor!=head)
+                cursor=cursor->prev;
+            }
+        }
+        else if(c=='D'){
+            if(cursor->next!=NULL){ //(cursor!=last)
+                cursor=cursor->next;
+            }
+        }
+        else if(c=='B'){
+            if(cursor!=head){
+                if(cursor->prev!=head){
+                    cursor->prev=cursor->prev->prev;
+                    cursor->prev->next=cursor;
+                }
+                else{
+                    head=cursor;
+                    cursor->prev=NULL;
                 }
             }
         }
+        else{
+            char c2;
+            scanf(" %c", &c2);
+            cin >> c2;
+            Node* newNode = new Node;
+            newNode->val=c2;
+            newNode->prev=cursor->prev;
+            newNode->next=cursor;
+            if(head==cursor){
+                head=newNode;
+            }
+            else{
+                cursor->prev->next=newNode;
+            }
+            cursor->prev=newNode;
+        }
     }
-    printf("%d", cnt-1);
+    for(Node* p=head;p->val!='$';p=p->next){
+        //printf("%c", p->val);
+        cout << p->val;
+    }
+    //printf("\n");
+    cout << endl;
     return 0;
 }
