@@ -1,34 +1,37 @@
 #include <iostream>
-#define SIZE 2200000
+#include <stdio.h>
 
 using namespace std;
 
 int rear = -1;
 int front = -1;
-int queue[SIZE][2];
-int answer;
-bool visit[100001];
+int queue[5500000][2];
 int N, K;
+int visit[100001];
+int answer;
+
+void get_input(){
+    scanf("%d %d", &N, &K);
+}
 
 int Next(int x, int idx){
     switch (idx) {
-        case 0:
+        case 0: {
             return x-1;
-        case 1:
+        }
+        case 1: {
             return x+1;
-        case 2:
+        }
+        case 2:{
             return 2*x;
-
+        }
     }
+    return 1;
 }
 
-void get_input() {
-    cin >> N >> K;
-}
-
-int bfs() {
-    while (front != rear) {
-        front++;
+int bfs(){
+    while (front!=rear) {
+        front ++;
         int v=queue[front][0];
         int t=queue[front][1];
         if(v==K){
@@ -36,9 +39,9 @@ int bfs() {
         }
         if(!visit[v]){
             visit[v]=true;
-            for(int idx=0;idx<3;idx++){
-                int nx=Next(v, idx);
-                if(0<nx&&nx<=100000){
+            for(int k=0;k<3;k++){
+                int nx=Next(v, k);
+                if(0<=nx&&nx<=100000){
                     if(!visit[nx]){
                         rear++;
                         queue[rear][0]=nx;
@@ -48,15 +51,16 @@ int bfs() {
             }
         }
     }
+    return 1;
 }
 
-int main() {
+int main(){
     get_input();
-   rear++;
-    queue[rear][0] = N;
-    queue[rear][1] = 0;
+    rear++;
+    queue[rear][0]=N;
+    queue[rear][1]=0;
 
-     answer=bfs();
+    answer=bfs();
     cout<<answer;
 
     return 0;
