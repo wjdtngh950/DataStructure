@@ -1,73 +1,63 @@
-#include<iostream>
-#include<stdio.h>
+#include <iostream>
+#define SIZE 2200000
 
 using namespace std;
 
-struct Node {
-    char val;
-    Node *prev;
-    Node *next;
-};
+int rear = -1;
+int front = -1;
+int queue[SIZE][2];
+int answer;
+bool visit[100001];
+int N, K;
 
-Node *head;
-Node *last;
-Node *cursor;
+int Next(int x, int idx){
+    switch (idx) {
+        case 0:
+            return x-1;
+        case 1:
+            return x+1;
+        case 2:
+            return 2*x;
 
-void addNode(char value) {
-    if (head == cursor) {
-        head = new Node;
-        head->val = value;
-        head->prev = NULL;
-        head->next = cursor;
-        cursor->prev = head;
-    } else {
-        Node *newNode = new Node;
-        newNode->val = value;
-        newNode->prev = cursor->prev;
-        newNode->next = cursor;
-        cursor->prev->next = newNode;
-        cursor->prev = newNode;
+    }
+}
+
+void get_input() {
+    cin >> N >> K;
+}
+
+int bfs() {
+    while (front != rear) {
+        front++;
+        int v=queue[front][0];
+        int t=queue[front][1];
+        if(v==K){
+            return t;
+        }
+        if(!visit[v]){
+            visit[v]=true;
+            for(int idx=0;idx<3;idx++){
+                int nx=Next(v, idx);
+                if(0<nx&&nx<=100000){
+                    if(!visit[nx]){
+                        rear++;
+                        queue[rear][0]=nx;
+                        queue[rear][1]=t+1;
+                    }
+                }
+            }
+        }
     }
 }
 
 int main() {
-    int N;
-    cin >> N;
-    for (int n = 0; n < N; n++) {
-        char buf[1100000];
-        cin >> buf;
-        cursor = new Node;
-        cursor->val = '$';
-        cursor->prev = NULL;
-        cursor->next = NULL;
-        head = last = cursor;
-        for (int i = 0; buf[i] != '\0'; i++) {
-            if (buf[i] == '<') {
-                if (cursor != head) {
-                    cursor = cursor->prev;
-                }
-            } else if (buf[i] == '>') {
-                if (cursor != last) {
-                    cursor = cursor->next;
-                }
-            } else if (buf[i] == '-') {
-                if (cursor != head) {
-                    if (cursor->prev != head) {
-                        cursor->prev->prev->next = cursor;
-                        cursor->prev = cursor->prev->prev;
-                    } else {
-                        head = cursor;
-                        cursor->prev = NULL;
-                    }
-                }
-            } else {
-                addNode(buf[i]);
-            }
-        }
-        for (Node *p = head; p->val != '$'; p = p->next) {
-            printf("%c", p->val);
-        }
-        printf("\n");
-    }
+    get_input();
+   rear++;
+    queue[rear][0] = N;
+    queue[rear][1] = 0;
+
+     answer=bfs();
+    cout<<answer;
+
     return 0;
 }
