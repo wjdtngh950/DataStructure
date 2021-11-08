@@ -11,7 +11,7 @@ struct Node{
 };
 
 Node* head;
-Node* last;
+Node* last;.
 Node* cursor;
 
 void addNode(char value){
