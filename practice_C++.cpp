@@ -41,7 +41,7 @@ int main() {
         cursor->prev = NULL;
         cursor->next = NULL;
         head = last = cursor;
-        for (int i = 0; i < buf[i] != '\0'; i++) {
+        for (int i = 0; buf[i] != '\0'; i++) {
             if (buf[i] == '<') {
                 if (cursor != head) {
                     cursor = cursor->prev;
@@ -60,8 +60,7 @@ int main() {
                         cursor->prev = NULL;
                     }
                 }
-            }
-            else {
+            } else {
                 addNode(buf[i]);
             }
         }
