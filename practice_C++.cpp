@@ -15,10 +15,10 @@ void enqueue(int x, int y) {
     queue[rear][1] = y;
 }
 
-void dequeue(int* x, int* y) {
+void dequeue(int& a1, int& a2) {
     front++;
-    *x = queue[front][0];
-    *y = queue[front][1];
+    a1 = queue[front][0];
+    a2 = queue[front][1];
 }
 
 int Next(int x, int idx) {
