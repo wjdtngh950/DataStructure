@@ -1,17 +1,13 @@
-#include<iostream>
-#include <stdio.h>
+#include <iostream>
 
 using namespace std;
 
 int rear = -1;
 int front = -1;
-int queue[5500000][2];
-int dx[4] = {-1, 1, 0, 0};
-int dy[4] = {0, 0, -1, 1};
-int visit[50][50];
-int map[50][50];
-int N, M, K;
-int worm;
+int queue[2200000][2];
+int answer;
+bool visit[100001];
+int N, K;
 
 void enqueue(int x, int y) {
     rear++;
@@ -19,71 +15,56 @@ void enqueue(int x, int y) {
     queue[rear][1] = y;
 }
 
-void dequeue(int *x, int *y) {
+void dequeue(int* x, int* y) {
     front++;
     *x = queue[front][0];
     *y = queue[front][1];
 }
 
+int Next(int x, int idx) {
+    switch (idx) {
+        case 0:
+            return x - 1;
+        case 1:
+            return x + 1;
+        case 2:
+            return 2 * x;
+
+    }
+}
+
 void get_input() {
-    cin>>N>>M>>K;
-    for (int i = 0; i < K; i++) {
-        int v1, v2;
-       cin>>v1>>v2;
-        map[v1][v2] = 1;
-    }
+    cin >> N >> K;
 }
 
-void bfs() {
+int bfs() {
     while (front != rear) {
-        int cx, cy;
-        dequeue(&cx, &cy);
-        if(visit[cx][cy]==0){
-            visit[cx][cy]=1;
-           for(int k=0;k<4;k++){
-                int nx=cx+dx[k];
-                int ny=cy+dy[k];
-                if(0<=nx&&nx<N&&0<=ny&&ny<M){
-                    if(map[nx][ny]==1){
-                        if(visit[nx][ny]==0) {
-                            enqueue(nx, ny);
-                        }
+        front++;
+        int v, t;
+        dequeue(v, t);
+        if (v == K) {
+            return t;
+        }
+        if (!visit[v]) {
+            visit[v] = true;
+            for (int idx = 0; idx < 3; idx++) {
+                int nx = Next(v, idx);
+                if (0 <= nx && nx <= 100000) {
+                    if (!visit[nx]) {
+                        enqueue(nx, t + 1);
                     }
                 }
             }
         }
     }
-    worm++;
 }
 
-void reset(){
-    for(int i =0;i<50;i++){
-        for(int j=0;j<50;j++){
-            map[i][j]=0;
-            visit[i][j]=0;
-        }
-    }
-    worm =0;
-}
+int main() {
+    get_input();
+    enqueue(N, 0);
 
-int main(){
-    int T;
-    cin >>T;
-    for(int t=0;t<T;t++) {
-        reset();
-        get_input();
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                if (map[i][j] == 1) {
-                    if (visit[i][j] == 0) {
-                        enqueue(i, j);
-                        bfs();
-                    }
-                }
-            }
-        }
-       cout<<worm<<endl;
+    answer = bfs();
+    cout << answer;
 
-   }
     return 0;
 }
