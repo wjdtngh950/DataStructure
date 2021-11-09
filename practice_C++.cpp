@@ -39,7 +39,6 @@ void get_input() {
 
 int bfs() {
     while (front != rear) {
-        front++;
         int v, t;
         dequeue(v, t);
         if (v == K) {
