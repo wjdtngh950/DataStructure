@@ -26,7 +26,6 @@ int Next(int x, int idx){
             return 2*x;
         }
     }
-    return 1;
 }
 
 int bfs(){
@@ -51,7 +50,6 @@ int bfs(){
             }
         }
     }
-    return 1;
 }
 
 int main(){
