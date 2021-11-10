@@ -1,56 +1,50 @@
-#include <iostream>
-
+#include<iostream>
+#include<stdio.h>
 using namespace std;
-
 int rear = -1;
 int front = -1;
-int queue[2200000][2];
+int queue[5500000][2];
 int answer;
+int N,K;
 bool visit[100001];
-int N, K;
 
-void enqueue(int x, int y) {
-    rear++;
-    queue[rear][0] = x;
-    queue[rear][1] = y;
+void get_input(){
+    scanf("%d %d", &N, &K);
 }
 
-void dequeue(int& a1, int& a2) {
-    front++;
-    a1 = queue[front][0];
-    a2 = queue[front][1];
-}
 
-int Next(int x, int idx) {
+int Next(int x, int idx){
     switch (idx) {
-        case 0:
-            return x - 1;
-        case 1:
-            return x + 1;
-        case 2:
-            return 2 * x;
-
+        case 0 : {
+            return x-1;
+        }
+        case 1 : {
+            return x+1;
+        }
+        case 2:{
+            return 2*x;
+        }
     }
 }
 
-void get_input() {
-    cin >> N >> K;
-}
+int bfs(){
+    while (front!=rear){
 
-int bfs() {
-    while (front != rear) {
-        int v, t;
-        dequeue(v, t);
-        if (v == K) {
+        front++;
+        int v=queue[front][0];
+        int t=queue[front][1];
+        if(v==K){
             return t;
         }
-        if (!visit[v]) {
-            visit[v] = true;
-            for (int idx = 0; idx < 3; idx++) {
-                int nx = Next(v, idx);
-                if (0 <= nx && nx <= 100000) {
-                    if (!visit[nx]) {
-                        enqueue(nx, t + 1);
+        if(visit[v]==false){
+            visit[v]=true;
+            for(int k=0;k<3;k++){
+                int nx=Next(v, k);
+                if(0<=nx&&nx<=100000){
+                    if(visit[nx]== false){
+                        rear++;
+                        queue[rear][0]=nx;
+                        queue[rear][1]=t+1;
                     }
                 }
             }
@@ -58,12 +52,12 @@ int bfs() {
     }
 }
 
-int main() {
+int main(){
     get_input();
-    enqueue(N, 0);
-
+    rear++;
+    queue[rear][0]=N;
+    queue[rear][1]=0;
     answer = bfs();
-    cout << answer;
-
+   cout << answer;
     return 0;
 }
