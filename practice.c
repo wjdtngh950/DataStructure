@@ -1,37 +1,19 @@
-#include <stdio.h>
+#include<stdio.h>
 
+int A, B, C;
+int AC;
+int answer;
 
-int rear = -1;
-int front = -1;
-int queue[100000];
-int arr[100000];
-int cnt;
-int N,M;
-
-void enqueue(int val){
-    queue[++rear]=val;
-}
-
-int dequeue(){
-    return queue[++front];
-}
-
-
-void get_input(){
-    int n=1;
-    scanf("%d %d", &N, &M);
-    for(int i=1;i<=N;i++){
-       enqueue(n);
-        n++;
-    }
-    for(int m=0;m<M;m++){
-        scanf("%d", &arr[m]);
-    }
-}
 
 int main(){
-    get_input();
+    scanf("%d %d %d", &A, &B, &C);
+    AC=A-C;
+    answer=AC/B;
 
+    if(AC==B){
+        answer=-1;
+    }
 
+    printf("%d", answer);
     return 0;
 }
