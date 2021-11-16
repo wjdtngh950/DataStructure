@@ -20,9 +20,8 @@ int dequeue(){
 void get_input(){
     int n=1;
     scanf("%d %d", &N, &M);
-    for(int i=0;i<N;i++){
-        rear++;
-        queue[i]=n;
+    for(int i=1;i<=N;i++){
+       enqueue(n);
         n++;
     }
     for(int m=1;m<=M;m++){
