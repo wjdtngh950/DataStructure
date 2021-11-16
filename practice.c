@@ -1,43 +1,79 @@
-#include <stdio.h>
-using namespace std;
+#include<stdio.h>
+#include<string.h>
 
-int N, temp;
+#define TRUE 1
+#define FALSE 0
+#define STACK_SIZE 110000
 
-int arr[100001]; // 입력 배열
-int stack[100001]; // 스택
-int stack_top = -1;
+int stack[STACK_SIZE];
+int top = -1;
+int cnt;
 
-char op_stack[200002]; // 문자 스택(+/-)
-int op_stack_top = -1;
+int is_full() {
+    if (top == STACK_SIZE - 1) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+int is_empty() {
+    if (top == -1) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void push(int val) {
+    if (is_full()) {
+        return;
+    }
+    top++;
+    stack[top] = val;
+}
+
+int pop() {
+    if (is_empty()) {
+        return -1;
+    }
+    int rtn = stack[top];
+    top--;
+    return rtn;
+    //return stack[top--];
+}
 
 int main() {
+    int N;
+    int m;
     scanf("%d", &N);
-    for (int i = 0; i < N; i++) { // 수열 입력
-        scanf("%d", &arr[i]);
-    }
-    int n = 1; // 1 ~ N
-    int i = 0;
-    while (i < N) { // arr[0] ~ arr[N-1]
-        if (stack_top > -1 && stack[stack_top] == arr[i]) {
-            stack_top--; // pop;
-            i++;
-            op_stack[++op_stack_top] = '-';
-        } // 스택에서 값을 꺼내는 동작
-        else if (n <= arr[i]) {
-            while (n <= arr[i]) {
-                stack[++stack_top] = n;
-                n++;
-                op_stack[++op_stack_top] = '+';
+    char buf[6]; //  가장 긴게 엠티니까
+    for (int i = 0; i < N; i++) {
+        scanf("%s", buf);
+        if (buf[0] == 'p' && buf[1] == 'u') {
+            scanf("%d", &m);
+            push(m);
+        }
+        else if(buf[0]=='p'&&buf[1]=='o'){
+            printf("%d\n", pop());
+        }
+        else if(buf[0]=='s'){
+            printf("%d\n", top+1);
+        }
+        else if(buf[0]=='e'){
+            if(is_empty()){
+                printf("%d\n", TRUE);
+            }
+            else{
+                printf("%d\n", FALSE);
             }
         }
-        else {
-            printf("NO");
-            return 0;
+        else{
+            if(!is_empty()){
+                printf("%d\n", stack[top]);
+            }
+            else{
+                printf("-1\n");
+            }
         }
     }
-    for (int i = 0; i <= op_stack_top; i++) {
-        printf("%c\n", op_stack[i]);
-    }
-
     return 0;
 }
