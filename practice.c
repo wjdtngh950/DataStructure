@@ -24,27 +24,14 @@ void get_input(){
        enqueue(n);
         n++;
     }
-    for(int m=1;m<=M;m++){
+    for(int m=0;m<M;m++){
         scanf("%d", &arr[m]);
     }
 }
 
 int main(){
     get_input();
-    int x=0;
-    int i=0;
-    while (front!=rear){
-        if(queue[i]==arr[x]){
-            dequeue();
-            x++;
-        }
-        else{
-            dequeue();
-            enqueue(i);
-            cnt++;
-            i++;
-        }
-    }
-    printf("%d", cnt);
+
+
     return 0;
 }
