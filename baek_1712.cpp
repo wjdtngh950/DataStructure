@@ -13,11 +13,14 @@ int main(){
         answer=-1;
     }
     else {
-        answer = A / BC;
-        answer++;
+        if(A==0){
+            answer = 1;
+        }
+        else {
+            answer = A / BC;
+            answer++;
+        }
     }
-
-
     printf("%d", answer);
     return 0;
 }
