@@ -47,7 +47,7 @@ int bfs(){
             return t;
         }
         if(visit[v]==0){
-            visit[v]=true;
+            visit[v]=1;
             for(int k=0;k<3;k++){
                 int nx=Next(v, k);
                 if(0<=nx&&nx<=100000){
