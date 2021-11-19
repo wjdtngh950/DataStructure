@@ -61,7 +61,6 @@ int bfs() {
 int main() {
     get_input();
     enqueue(N, 0);
-
     answer = bfs();
     cout << answer;
 
