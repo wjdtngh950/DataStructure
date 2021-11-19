@@ -10,10 +10,10 @@ void get_input(){
     }
 }
 
-void up(){
+void down(){
     for(int i =0; i<N;i++){
         for(int j=0;j<N-1;j++){
-            if(arr[j]>arr[j+1]){
+            if(arr[j]<arr[j+1]){
                 int target=arr[j];
                 arr[j]=arr[j+1];
                 arr[j+1]=target;
@@ -24,7 +24,7 @@ void up(){
 
 int main(){
     get_input();
-    up();
+    down();
     for(int k=0;k<N;k++){
         printf("%d\n", arr[k]);
     }
