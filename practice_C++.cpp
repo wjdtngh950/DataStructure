@@ -1,4 +1,5 @@
 #include<iostream>
+#include<stdio.h>
 
 using namespace std;
 
@@ -21,15 +22,15 @@ void dequeue(int *x, int* y){
 
 int Next(int x, int idx){
     switch (idx) {
-        case 0: {
+        case 0:
             return x-1;
-        }
-        case 1: {
+
+        case 1:
             return x+1;
-        }
-        case 2:{
+
+        case 2:
             return 2*x;
-        }
+
     }
 }
 
