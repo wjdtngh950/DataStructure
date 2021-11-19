@@ -13,12 +13,20 @@ void get_input(){
 void up(){
     for(int i=0;i<N;i++){
         for(int j=0;j<N-1;j++){
-            int target=arr[j+1];
             if(arr[j]>arr[j+1]){
-                arr[j+1]=arr[j];
-                arr[j]=target;
+                int target=arr[j];
+                arr[j]=arr[j+1];
+                arr[j+1]=target;
             }
         }
     }
-    for()
+}
+
+int main() {
+    get_input();
+    up();
+    for (int k = 0; k < N; k++) {
+        printf("%d\n", arr[k]);
+    }
+    return 0;
 }
