@@ -1,13 +1,11 @@
-#include<stdio.h>
-#include "iostream"
+#include<iostream>
 
 using namespace std;
 
 int N, K;
-bool visit[100001];
-int queue[1000001][2];
+bool visit[1000001];
+int queue[2200000][2];
 int rear, front =-1;
-int answer;
 
 void enqueue(int x, int y){
     rear++;
@@ -64,9 +62,7 @@ int bfs(){
 
 int main(){
     get_input();
-    enqueue(N, 0);
-    answer=bfs();
-    printf("%d", answer);
+    printf("%d", bfs());
     return 0;
 }
 
