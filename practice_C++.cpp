@@ -5,10 +5,9 @@ using namespace std;
 
 int N, K;
 bool visit[1000001];
-int queue[5500000][2];
+int queue[2200000][2];
 int rear = -1;
-int front =-1;
-
+int front = -1;
 void enqueue(int x, int y){
     rear++;
     queue[rear][0]=x;
