@@ -5,8 +5,9 @@ using namespace std;
 
 int N, K;
 bool visit[1000001];
-int queue[2200000][2];
-int rear, front =-1;
+int queue[5500000][2];
+int rear = -1;
+int front =-1;
 
 void enqueue(int x, int y){
     rear++;
@@ -47,7 +48,7 @@ int bfs(){
             return t;
         }
         if(visit[v]==0){
-            visit[v]=1;
+            visit[v]=true;
             for(int k=0;k<3;k++){
                 int nx=Next(v, k);
                 if(0<=nx&&nx<=100000){
