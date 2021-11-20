@@ -12,7 +12,7 @@ void get_input(){
 
 void down(){
     for(int i =0; i<N;i++){
-        for(int j=0;j<N-1;j++){
+        for(int j=0;j<N-1;++){
             if(arr[j]<arr[j+1]){
                 int target=arr[j];
                 arr[j]=arr[j+1];
