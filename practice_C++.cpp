@@ -1,31 +1,18 @@
 #include<stdio.h>
 
-int arr[1001];
 int N;
+int sum =1;
+
 void get_input(){
     scanf("%d", &N);
-    for(int i=0;i<N;i++){
-        scanf("%d", &arr[i]);
-    }
-}
-
-void up(){
-    for(int i=0;i<N;i++){
-        for(int j=0;j<N-1;j++){
-            if(arr[j]>arr[j+1]){
-                int target=arr[j+1];
-                arr[j+1]=arr[j];
-                arr[j]=target;
-            }
-        }
-    }
 }
 
 int main(){
     get_input();
-    up();
-    for(int i=0;i<N;i++){
-        printf("%d\n", arr[i]);
+    for(int i=N;i>0;i--){
+        sum*=i;
     }
+
+    printf("%d", sum);
     return 0;
 }
