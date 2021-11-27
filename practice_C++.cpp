@@ -2,29 +2,25 @@
 
 
 int A, B, C;
-
 int BC;
-
 int sum;
+long long int answer;
 
-int get_input(){
+void get_input(){
     scanf("%d %d %d", &A, &B, &C);
     BC=C-B;
-    sum = A/BC;
-    if(sum <=0){
-        printf("%d", -1);
-        return 0;
-    }
 }
 
 
 
 int main() {
     get_input();
-    if (A <= BC) {
-        printf("%d", 1);
-    } else if (sum >= 0) {
-        printf("%d", sum+1);
+    if (BC<=0) {
+        answer = -1;
+        printf("%lld", answer);
+    } else{
+        answer=A/BC;
+        printf("%lld", answer+1);
     }
     return 0;
 }
