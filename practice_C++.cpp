@@ -41,7 +41,7 @@ int main(){
             return 0;
         }
     }
-    for(int k=0;k<top2;k++){
+    for(int k=0;k<=top2;k++){
         printf("%c\n", stack2[k]);
     }
     return 0;
