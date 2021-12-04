@@ -1,13 +1,15 @@
+//
+// Created by 정수호 on 01/08/2021.
+//
+
 #include<stdio.h>
-#include<string.h>
 
 #define TRUE 1
 #define FALSE 0
-#define STACK_SIZE 110000
+#define STACK_SIZE 1100000
 
 int stack[STACK_SIZE];
 int top = -1;
-int cnt;
 
 int is_full() {
     if (top == STACK_SIZE - 1) {
@@ -23,54 +25,41 @@ int is_empty() {
     return FALSE;
 }
 
-void push(int val) {
-    if (is_full()) {
+void push(int val){
+    if(is_full()){
         return;
     }
-    top++;
-    stack[top] = val;
+
+    stack[++top]=val;
 }
 
-int pop() {
-    if (is_empty()) {
+int pop(){
+    if(is_empty()){
         return -1;
     }
-    int rtn = stack[top];
-    top--;
-    return rtn;
-    //return stack[top--];
+    return stack[top--];
 }
 
 int main() {
     int N;
-    int m;
     scanf("%d", &N);
-    char buf[6]; //  가장 긴게 엠티니까
     for (int i = 0; i < N; i++) {
+        char buf[6];
         scanf("%s", buf);
         if (buf[0] == 'p' && buf[1] == 'u') {
-            scanf("%d", &m);
-            push(m);
-        }
-        else if(buf[0]=='p'&&buf[1]=='o'){
+            int X;
+            scanf("%d", &X);
+            push(X);
+        } else if (buf[0] == 'p' && buf[1] == 'o') {
             printf("%d\n", pop());
-        }
-        else if(buf[0]=='s'){
-            printf("%d\n", top+1);
-        }
-        else if(buf[0]=='e'){
-            if(is_empty()){
-                printf("%d\n", TRUE);
-            }
-            else{
-                printf("%d\n", FALSE);
-            }
-        }
-        else{
-            if(!is_empty()){
+        } else if (buf[0] == 's') {
+            printf("%d\n", top + 1);
+        } else if (buf[0] == 'e') {
+            printf("%d\n", is_empty());
+        } else if(buf[0]=='t'){
+            if (!(is_empty())) {
                 printf("%d\n", stack[top]);
-            }
-            else{
+            } else {
                 printf("-1\n");
             }
         }
