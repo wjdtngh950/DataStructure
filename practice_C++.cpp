@@ -1,11 +1,13 @@
-#include<stdio.h> //제출 c11 로 하기
+#include<stdio.h>
+#include<string.h>
 
 #define TRUE 1
 #define FALSE 0
-#define STACK_SIZE 1100000
+#define STACK_SIZE 110000
 
-char stack[STACK_SIZE];
+int stack[STACK_SIZE];
 int top = -1;
+int cnt;
 
 int is_full() {
     if (top == STACK_SIZE - 1) {
@@ -21,7 +23,7 @@ int is_empty() {
     return FALSE;
 }
 
-void push(char val) {
+void push(int val) {
     if (is_full()) {
         return;
     }
@@ -29,63 +31,48 @@ void push(char val) {
     stack[top] = val;
 }
 
-char pop() {
+int pop() {
     if (is_empty()) {
-        return '\0';
+        return -1;
     }
-    char rtn = stack[top];
+    int rtn = stack[top];
     top--;
     return rtn;
+    //return stack[top--];
 }
 
 int main() {
-    while (1) {
-        char buf[102];
-        int error = FALSE;
-        top = -1;
-        gets(buf);
-        // 입력 버퍼
-        if (buf[0] == '.' && buf[1] == '\0') {
-            break;
+    int N;
+    int m;
+    scanf("%d", &N);
+    char buf[6]; //  가장 긴게 엠티니까
+    for (int i = 0; i < N; i++) {
+        scanf("%s", buf);
+        if (buf[0] == 'p' && buf[1] == 'u') {
+            scanf("%d", &m);
+            push(m);
         }
-        for (int i = 0; buf[i] != '.'; i++) {
-            if (buf[i] == '(') {
-                push(buf[i]);
+        else if(buf[0]=='p'&&buf[1]=='o'){
+            printf("%d\n", pop());
+        }
+        else if(buf[0]=='s'){
+            printf("%d\n", top+1);
+        }
+        else if(buf[0]=='e'){
+            if(is_empty()){
+                printf("%d\n", TRUE);
             }
-            else if (buf[i] == ')') {
-                if (is_empty()) {
-                    error = TRUE;
-                    break;
-                }
-                else if (stack[top] != '(') {
-                    error = TRUE;
-                    break;
-                }
-                pop();
-            }
-            else if (buf[i] == '[') {
-                push(buf[i]);
-            }
-            else if (buf[i] == ']') {
-                if (is_empty()) {
-                    error = TRUE;
-                    break;
-                }
-                else if (stack[top] != '[') {
-                    error = TRUE;
-                    break;
-                }
-                pop();
+            else{
+                printf("%d\n", FALSE);
             }
         }
-        if (!(is_empty())) {
-            error = TRUE;
-        }
-        if (error == TRUE) {
-            printf("no\n");
-        }
-        else {
-            printf("yes\n");
+        else{
+            if(!is_empty()){
+                printf("%d\n", stack[top]);
+            }
+            else{
+                printf("-1\n");
+            }
         }
     }
     return 0;
