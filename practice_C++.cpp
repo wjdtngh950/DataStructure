@@ -1,79 +1,65 @@
-#include<stdio.h>
-#include<string.h>
+#include <iostream>
+#include <stdio.h>
 
-#define TRUE 1
-#define FALSE 0
-#define STACK_SIZE 110000
+using namespace std;
 
-int stack[STACK_SIZE];
-int top = -1;
-int cnt;
+int rear = -1;
+int front = -1;
+int queue[5500000][2];
+int N, K;
+int visit[100001];
+int answer;
 
-int is_full() {
-    if (top == STACK_SIZE - 1) {
-        return TRUE;
-    }
-    return FALSE;
+void get_input(){
+    scanf("%d %d", &N, &K);
 }
 
-int is_empty() {
-    if (top == -1) {
-        return TRUE;
+int Next(int x, int idx){
+    switch (idx) {
+        case 0: {
+            return x-1;
+        }
+        case 1: {
+            return x+1;
+        }
+        case 2:{
+            return 2*x;
+        }
     }
-    return FALSE;
 }
 
-void push(int val) {
-    if (is_full()) {
-        return;
-    }
-    top++;
-    stack[top] = val;
-}
-
-int pop() {
-    if (is_empty()) {
-        return -1;
-    }
-    int rtn = stack[top];
-    top--;
-    return rtn;
-    //return stack[top--];
-}
-
-int main() {
-    int N;
-    int m;
-    scanf("%d", &N);
-    char buf[6]; //  가장 긴게 엠티니까
-    for (int i = 0; i < N; i++) {
-        scanf("%s", buf);
-        if (buf[0] == 'p' && buf[1] == 'u') {
-            scanf("%d", &m);
-            push(m);
+int bfs(){
+    while (front!=rear) {
+        front ++;
+        int v=queue[front][0];
+        int t=queue[front][1];
+        if(v==K){
+            return t;
         }
-        else if(buf[0]=='p'&&buf[1]=='o'){
-            printf("%d\n", pop());
-        }
-        else if(buf[0]=='s'){
-            printf("%d\n", top+1);
-        }
-        else if(buf[0]=='e'){
-            if(is_empty()){
-                printf("%d\n", TRUE);
-            }
-            else{
-                printf("%d\n", FALSE);
-            }
-        }
-        else{
-            if(!is_empty()){
-                printf("%d\n", stack[top]);
-            }
-            else{
-                printf("-1\n");
+        if(!visit[v]){
+            visit[v]=true;
+            for(int k=0;k<3;k++){
+                int nx=Next(v, k);
+                if(0<=nx&&nx<=100000){
+                    if(!visit[nx]){
+                        rear++;
+                        queue[rear][0]=nx;
+                        queue[rear][1]=t+1;
+                    }
+                }
             }
         }
     }
+}
+
+int main(){
+    get_input();
+    rear++;
+    queue[rear][0]=N;
+    queue[rear][1]=0;
+
+    answer=bfs();
+    cout<<answer;
+
     return 0;
 }
