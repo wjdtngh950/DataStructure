@@ -49,8 +49,7 @@ int main(){
         if(m==0){
             pop();
         }
-        else{
-            push(m);
+        else{push(m);
         }
     }
     for(int i=0; i<=top;i++){
