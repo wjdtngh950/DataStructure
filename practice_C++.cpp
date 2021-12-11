@@ -1,21 +1,63 @@
 #include<stdio.h>
 
-int A, B, C;
-int BC;
-long long int answer;
+#define TRUE 1
+#define FALSE 0
+#define STACK_SIZE 1100000
 
+int stack[STACK_SIZE];
+int top=-1;
+
+int is_full(){
+    if(top==STACK_SIZE-1){
+        return TRUE;
+    }
+    return FALSE;
+}
+
+int is_empty(){
+    if(top==-1){
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void push(int val){
+    if(is_full()){
+        return;
+    }
+    top++;
+    stack[top]=val;
+}
+
+int pop(){
+    if(is_empty()){
+        return -1;
+    }
+    int rtn= stack[top];
+    top--;
+    return rtn;
+    //return stack[top--];
+}
 
 int main(){
-    scanf("%d %d %d", &A, &B, &C);
-
-    BC=C-B;
-    if(BC<=0){
-        answer=-1;
+    int N;
+    scanf("%d", &N);
+    int sum=0;
+    for(int n=0;n<N;n++){
+        int m;
+        scanf("%d", &m);
+        if(m==0){
+            pop();
+        }
+        else{
+            push(m);
+        }
     }
-    else {
-        answer = A / BC;
-        answer++;
+    for(int i=0; i<=top;i++){
+        sum+=stack[i];
     }
-    printf("%lld", answer);
+    printf("%d", sum);
     return 0;
+
 }
+
