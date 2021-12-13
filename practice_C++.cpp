@@ -59,21 +59,21 @@ void bfs() {
     worm++;
 }
 
-void reset(){
+void resett(){
     for(int i=0;i<300;i++){
         for(int j=0;j<300;j++){
             map[i][j]=0;
-            visit[i][j]=1;
+            visit[i][j]=0;
         }
     }
-    worm =0;
+    worm=0;
 }
 
 int main(){
     int T;
     scanf("%d", &T);
     for(int t=0;t<T;t++) {
-        reset();
+        resett();
         get_input();
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
