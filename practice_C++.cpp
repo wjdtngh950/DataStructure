@@ -1,79 +1,76 @@
 #include<stdio.h>
-#include<string.h>
 
 #define TRUE 1
 #define FALSE 0
-#define STACK_SIZE 110000
+#define SIZE 5500000
 
-int stack[STACK_SIZE];
-int top = -1;
-int cnt;
+int N, M, K;
+int queue[SIZE][2];
+int front = -1;
+int rear = -1;
+int worm;
 
-int is_full() {
-    if (top == STACK_SIZE - 1) {
-        return TRUE;
-    }
-    return FALSE;
+int map[300][300];
+int visit [300][300];
+
+int dx[4]={-1,1,0,0};
+int dy[4]={0,0,-1,1};
+
+void enqueue(int x, int y){
+    rear++;
+    queue[rear][0]=x;
+    queue[rear][1]=y;
 }
 
-int is_empty() {
-    if (top == -1) {
-        return TRUE;
-    }
-    return FALSE;
+void dequeue(int*x, int*y){
+    front++;
+    *x=queue[front][0];
+    *y=queue[front][1];
 }
 
-void push(int val) {
-    if (is_full()) {
-        return;
+void get_input(){
+    scanf("%d %d %d", &M, &N, &K);
+    for(int i=0;i<K;i++) {
+        int v1, v2;
+        scanf("%d %d", &v1, &v2);
+        map[v2][v1]=1;
     }
-    top++;
-    stack[top] = val;
 }
 
-int pop() {
-    if (is_empty()) {
-        return -1;
-    }
-    int rtn = stack[top];
-    top--;
-    return rtn;
-    //return stack[top--];
-}
-
-int main() {
-    int N;
-    int m;
-    scanf("%d", &N);
-    char buf[6]; //  가장 긴게 엠티니까
-    for (int i = 0; i < N; i++) {
-        scanf("%s", buf);
-        if (buf[0] == 'p' && buf[1] == 'u') {
-            scanf("%d", &m);
-            push(m);
-        }
-        else if(buf[0]=='p'&&buf[1]=='o'){
-            printf("%d\n", pop());
-        }
-        else if(buf[0]=='s'){
-            printf("%d\n", top+1);
-        }
-        else if(buf[0]=='e'){
-            if(is_empty()){
-                printf("%d\n", TRUE);
-            }
-            else{
-                printf("%d\n", FALSE);
-            }
-        }
-        else{
-            if(!is_empty()){
-                printf("%d\n", stack[top]);
-            }
-            else{
-                printf("-1\n");
+void bfs() {
+    while (rear != front) {
+        int cx, cy;
+        dequeue(&cx, &cy);
+        if (visit[cx][cy] == 0) {
+            visit[cx][cy] = 1;
+            for (int i = 0; i < 4; i++) {
+                int nx = cx + dx[i];
+                int ny = cy + dy[i];
+                if (0 <= nx && nx < N && 0 <= ny && ny < M) {
+                    if (map[nx][ny] == 0) {
+                        if (visit[nx][ny] == 0) {
+                            enqueue(nx, ny);
+                        }
+                    }
+                }
             }
         }
     }
+    worm++;
+}
+
+int main(){
+    get_input();
+    for(int i =0; i<N;i++){
+        for(int j=0;j<M;j++){
+            if(map[i][j]==1){
+                if(visit[i][j]==0){
+                    enqueue(i, j);
+                    bfs();
+                }
+            }
+        }
+    }
+    printf("%d", worm);
     return 0;
 }
