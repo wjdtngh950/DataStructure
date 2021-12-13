@@ -47,7 +47,7 @@ void bfs() {
                 int nx = cx + dx[i];
                 int ny = cy + dy[i];
                 if (0 <= nx && nx < N && 0 <= ny && ny < M) {
-                    if (map[nx][ny] == 0) {
+                    if (map[nx][ny] == 1) {
                         if (visit[nx][ny] == 0) {
                             enqueue(nx, ny);
                         }
@@ -59,18 +59,33 @@ void bfs() {
     worm++;
 }
 
+void reset(){
+    for(int i=0;i<300;i++){
+        for(int j=0;j<300;j++){
+            map[i][j]=0;
+            visit[i][j]=1;
+        }
+    }
+    worm =0;
+}
+
 int main(){
-    get_input();
-    for(int i =0; i<N;i++){
-        for(int j=0;j<M;j++){
-            if(map[i][j]==1){
-                if(visit[i][j]==0){
-                    enqueue(i, j);
-                    bfs();
+    int T;
+    scanf("%d", &T);
+    for(int t=0;t<T;t++) {
+        reset();
+        get_input();
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (map[i][j] == 1) {
+                    if (visit[i][j] == 0) {
+                        enqueue(i, j);
+                        bfs();
+                    }
                 }
             }
         }
+        printf("%d\n", worm);
     }
-    printf("%d", worm);
     return 0;
 }
