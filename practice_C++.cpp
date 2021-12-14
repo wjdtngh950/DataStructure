@@ -77,7 +77,7 @@ int main(){
         get_input();
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                if (map[i[j] == 1) {
+                if (map[i][j] == 1) {
                     if (visit[i][j] == 0) {
                         enqueue(i, j);
                         bfs();
