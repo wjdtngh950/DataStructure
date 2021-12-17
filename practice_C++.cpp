@@ -8,7 +8,7 @@ int N, M, K;
 int queue[SIZE][2];
 int front = -1;
 int rear = -1;
-int worm;
+int worm
 
 int map[300][300];
 int visit [300][300];
