@@ -70,7 +70,7 @@ void resett(){
 }
 
 int main(){
-    int T;
+    int T
     scanf("%d", &T);
     for(int t=0;t<T;t++) {
         resett();
