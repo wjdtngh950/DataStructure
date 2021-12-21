@@ -15,6 +15,7 @@ int visit [300][300];
 
 int dx[4]={-1,1,0,0};
 int dy[4]={0,0,-1,1};
+
 void enqueue(int x, int y){
     rear++;
     queue[rear][0]=x;
