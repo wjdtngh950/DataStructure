@@ -28,7 +28,7 @@ void dequeue(int*x, int*y){
     *y=queue[front][1];
 }
 
-void get_input(){
+void get_input(
     scanf("%d %d %d", &M, &N, &K);
     for(int i=0;i<K;i++) {
         int v1, v2;
