@@ -24,7 +24,7 @@ void enqueue(int x, int y){
 
 void dequeue(int*x, int*y){
     front++;
-    *x=queue[front][0];
+    *x=queue[front][0]
     *y=queue[front][1];
 }
 
