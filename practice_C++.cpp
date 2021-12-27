@@ -52,7 +52,7 @@ int main(){
             sum-=pop(); // 이거 다시그림으로 설명 요함 ...
         }
         else{
-            push(m)
+            push(m);
             sum+=m; //sum+=push(m)은 안됨 왜냐하면 반환값이 없기때문
         }
     }
