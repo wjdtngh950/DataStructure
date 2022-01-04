@@ -5,7 +5,6 @@ int arr[SIZE];
 int min;
 int max;
 int N;
-
 int main(void){
 
 
