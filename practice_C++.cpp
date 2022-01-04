@@ -1,22 +1,23 @@
 
+
 #include<stdio.h>
 
 #define TRUE 1
 #define FALSE 0
-#define STACK_SIZE 110000
+#define STACK_SIZE 1100000
 
 int stack[STACK_SIZE];
-int top=-1;
+int top = -1;
 
-int is_full(){
-    if(top==STACK_SIZE-1){
+int is_full() {
+    if (top == STACK_SIZE - 1) {
         return TRUE;
     }
     return FALSE;
 }
 
-int is_empty(){
-    if(top==-1){
+int is_empty() {
+    if (top == -1) {
         return TRUE;
     }
     return FALSE;
@@ -26,36 +27,40 @@ void push(int val){
     if(is_full()){
         return;
     }
-    top++;
-    stack[top]=val;
+
+    stack[++top]=val;
 }
 
 int pop(){
     if(is_empty()){
-        return -1; // int 에는 -1 char 에는 '\0'
+        return -1;
     }
-    int rtn=stack[top];
-    top--;
-    return rtn;
-    //return stack[top--];
+    return stack[top--];
 }
 
-int main(){
+int main() {
     int N;
-    int sum=0;
     scanf("%d", &N);
-
-    for(int n=0;n<N;n++){
-        int m;
-        scanf("%d", &m);
-        if(m==0){
-            sum-=pop(); // 이거 다시그림으로 설명 요함 ...
-        }
-        else{
-            push(m);
-            sum+=m; //sum+=push(m)은 안됨 왜냐하면 반환값이 없기때문
+    for (int i = 0; i < N; i++) {
+        char buf[6];
+        scanf("%s", buf);
+        if (buf[0] == 'p' && buf[1] == 'u') {
+            int X;
+            scanf("%d", &X);
+            push(X);
+        } else if (buf[0] == 'p' && buf[1] == 'o') {
+            printf("%d\n", pop());
+        } else if (buf[0] == 's') {
+            printf("%d\n", top + 1);
+        } else if (buf[0] == 'e') {
+            printf("%d\n", is_empty());
+        } else if(buf[0]=='t'){
+            if (!(is_empty())) {
+                printf("%d\n", stack[top]);
+            } else {
+                printf("-1\n");
+            }
         }
     }
-    printf("%d", sum);
     return 0;
 }
