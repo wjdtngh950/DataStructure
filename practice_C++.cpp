@@ -1,84 +1,101 @@
-
 #include<stdio.h>
 
 #define TRUE 1
 #define FALSE 0
-#define QUEUE_SIZE 2200000
+#define SIZE 1100000
 
-int queue[QUEUE_SIZE];
+int top = -1;
 int front = -1;
 int rear = -1;
 
-int is_full(){
-    if(rear==QUEUE_SIZE-1){
+int stack[SIZE];
+int queue[SIZE];
+
+int DFS_full() {
+    if (top == SIZE - 1) {
         return TRUE;
     }
     return FALSE;
 }
 
-int is_empty(){
-    if(front==rear){
+int DFS_empty() {
+    if (top == -1) {
         return TRUE;
     }
     return FALSE;
 }
 
-void enqueue(int val){
-    if(is_full()){
+int BFS_full() {
+    if (rear == SIZE - 1) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+int BFS_empty() {
+    if (front == rear) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void push(int val1) {
+    if (DFS_full()) {
         return;
     }
-    queue[++rear]=val;
+    stack[++top] = val1;
 }
 
-int dequeue(){
-    if(is_empty()){
+int pop() {
+    if (DFS_empty()) {
+        return -1;
+    }
+    return stack[top--];
+}
+
+void enqueue(int val2) {
+    if (BFS_full()) {
+        return;
+    }
+    queue[++rear] = val2;
+}
+
+int dequeue() {
+    if (BFS_empty()) {
         return -1;
     }
     return queue[++front];
 }
 
-int main(){
+int edge[1001][1001];
+int DFS_visit[1001];
+
+int main() {
     int N;
-    scanf("%d", &N);
-    for(int n=0;n<N;n++){
-        char buf[6];
-        scanf("%s", buf);
-        if(buf[0]=='p'&&buf[1]=='u'){
-            int X;
-            scanf("%d", &X);
-            enqueue(X);
-        }
-        else if(buf[1]=='o'){
-            if(is_empty()){
-                printf("-1\n");
-            }
-            else {
-                printf("%d\n", dequeue());
-            }
-        }
-        else if(buf[0]=='s'){
-            printf("%d\n", rear - front);
-        }
-        else if(buf[0]=='e'){
-            printf("%d\n", is_empty());
-        }
-        else if(buf[0]=='f'){
-            if(is_empty()){
-                printf("-1\n");
-            }
-            else{
-                printf("%d\n", queue[front+1]);
-            }
-        }
-        else{
-            if(is_empty()){
-                printf("-1\n");
-            }
-            else{
-                printf("%d\n",queue[rear]);
+    int M;
+    int cnt=0;
+    scanf("%d %d", &N, &M);
+    for(int i=0;i<M;i++){
+        int v1, v2;
+        scanf("%d %d", &v1,&v2);
+        edge[v1][v2]=1;
+        edge[v2][v1]=1;
+    }
+    push(1);
+    while(!DFS_empty()){
+        int v=pop();
+        if(!DFS_visit[v]){
+            DFS_visit[v]=TRUE;
+            cnt++;
+            for(int w=N;w>0;w--){
+                if(!DFS_visit[w]){
+                    if(edge[v][w]==TRUE){
+                        push(w);
+                    }
+                }
             }
         }
     }
+    printf("%d", cnt-1);
     return 0;
 }
-
