@@ -1,101 +1,68 @@
-#include<stdio.h>
+#include <iostream>
 
-#define TRUE 1
-#define FALSE 0
-#define SIZE 1100000
+using namespace std;
 
-int top = -1;
-int front = -1;
 int rear = -1;
+int front = -1;
+int queue[2200000][2];
+int answer;
+bool visit[100001];
+int N, K;
 
-int stack[SIZE];
-int queue[SIZE];
-
-int DFS_full() {
-    if (top == SIZE - 1) {
-        return TRUE;
-    }
-    return FALSE;
+void enqueue(int x, int y) {
+    rear++;
+    queue[rear][0] = x;
+    queue[rear][1] = y;
 }
 
-int DFS_empty() {
-    if (top == -1) {
-        return TRUE;
-    }
-    return FALSE;
+void dequeue(int& a1, int& a2) {
+    front++;
+    a1 = queue[front][0];
+    a2 = queue[front][1];
 }
 
-int BFS_full() {
-    if (rear == SIZE - 1) {
-        return TRUE;
+int Next(int x, int idx) {
+    switch (idx) {
+        case 0:
+            return x - 1;
+        case 1:
+            return x + 1;
+        case 2:
+            return 2 * x;
+
     }
-    return FALSE;
 }
 
-int BFS_empty() {
-    if (front == rear) {
-        return TRUE;
-    }
-    return FALSE;
+void get_input() {
+    cin >> N >> K;
 }
 
-void push(int val1) {
-    if (DFS_full()) {
-        return;
-    }
-    stack[++top] = val1;
-}
-
-int pop() {
-    if (DFS_empty()) {
-        return -1;
-    }
-    return stack[top--];
-}
-
-void enqueue(int val2) {
-    if (BFS_full()) {
-        return;
-    }
-    queue[++rear] = val2;
-}
-
-int dequeue() {
-    if (BFS_empty()) {
-        return -1;
-    }
-    return queue[++front];
-}
-
-int edge[1001][1001];
-int DFS_visit[1001];
-
-int main() {
-    int N;
-    int M;
-    int cnt=0;
-    scanf("%d %d", &N, &M);
-    for(int i=0;i<M;i++){
-        int v1, v2;
-        scanf("%d %d", &v1,&v2);
-        edge[v1][v2]=1;
-        edge[v2][v1]=1;
-    }
-    push(1);
-    while(!DFS_empty()){
-        int v=pop();
-        if(!DFS_visit[v]){
-            DFS_visit[v]=TRUE;
-            cnt++;
-            for(int w=N;w>0;w--){
-                if(!DFS_visit[w]){
-                    if(edge[v][w]==TRUE){
-                        push(w);
+int bfs() {
+    while (front != rear) {
+        int v, t;
+        dequeue(v, t);
+        if (v == K) {
+            return t;
+        }
+        if (!visit[v]) {
+            visit[v] = true;
+            for (int idx = 0; idx < 3; idx++) {
+                int nx = Next(v, idx);
+                if (0 <= nx && nx <= 100000) {
+                    if (!visit[nx]) {
+                        enqueue(nx, t + 1);
                     }
                 }
             }
         }
     }
-    printf("%d", cnt-1);
+}
+
+int main() {
+    get_input();
+    enqueue(N, 0);
+    answer = bfs();
+    cout << answer;
+
     return 0;
 }
