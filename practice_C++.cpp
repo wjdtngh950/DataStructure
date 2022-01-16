@@ -1,68 +1,61 @@
-#include <iostream>
 
-using namespace std;
+#include<stdio.h>
 
-int rear = -1;
-int front = -1;
-int queue[2200000][2];
-int answer;
-bool visit[100001];
-int N, K;
+#define TRUE 1
+#define FALSE 0
+#define STACK_SIZE 110000
 
-void enqueue(int x, int y) {
-    rear++;
-    queue[rear][0] = x;
-    queue[rear][1] = y;
-}
+int stack[STACK_SIZE];
+int top=-1;
 
-void dequeue(int& a1, int& a2) {
-    front++;
-    a1 = queue[front][0];
-    a2 = queue[front][1];
-}
-
-int Next(int x, int idx) {
-    switch (idx) {
-        case 0:
-            return x - 1;
-        case 1:
-            return x + 1;
-        case 2:
-            return 2 * x;
-
+int is_full(){
+    if(top==STACK_SIZE-1){
+        return TRUE;
     }
+    return FALSE;
 }
 
-void get_input() {
-    cin >> N >> K;
+int is_empty(){
+    if(top==-1){
+        return TRUE;
+    }
+    return FALSE;
 }
 
-int bfs() {
-    while (front != rear) {
-        int v, t;
-        dequeue(v, t);
-        if (v == K) {
-            return t;
+void push(int val){
+    if(is_full()){
+        return;
+    }
+    top++;
+    stack[top]=val;
+}
+
+int pop(){
+    if(is_empty()){
+        return -1; // int 에는 -1 char 에는 '\0'
+    }
+    int rtn=stack[top];
+    top--;
+    return rtn;
+    //return stack[top--];
+}
+
+int main(){
+    int N;
+    int sum=0;
+    scanf("%d", &N);
+
+    for(int n=0;n<N;n++){
+        int m;
+        scanf("%d", &m);
+        if(m==0){
+            sum-=pop() // 이거 다시그림으로 설명 요함 ...
         }
-        if (!visit[v]) {
-            visit[v] = true;
-            for (int idx = 0; idx < 3; idx++) {
-                int nx = Next(v, idx);
-                if (0 <= nx && nx <= 100000) {
-                    if (!visit[nx]) {
-                        enqueue(nx, t + 1);
-                    }
-                }
-            }
+        else{
+            push(m);
+            sum+=m; //sum+=push(m)은 안됨 왜냐하면 반환값이 없기때문
         }
     }
-}
-
-int main() {
-    get_input();
-    enqueue(N, 0);
-    answer = bfs();
-    cout << answer;
-
+    printf("%d", sum);
     return 0;
 }
