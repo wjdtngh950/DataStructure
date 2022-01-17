@@ -1,9 +1,8 @@
-
 #include<stdio.h>
 
 #define TRUE 1
 #define FALSE 0
-#define STACK_SIZE 110000
+#define STACK_SIZE 1100000
 
 int stack[STACK_SIZE];
 int top=-1;
@@ -32,9 +31,9 @@ void push(int val){
 
 int pop(){
     if(is_empty()){
-        return -1; // int 에는 -1 char 에는 '\0'
+        return -1;
     }
-    int rtn=stack[top];
+    int rtn= stack[top];
     top--;
     return rtn;
     //return stack[top--];
@@ -42,20 +41,23 @@ int pop(){
 
 int main(){
     int N;
-    int sum=0;
     scanf("%d", &N);
-
+    int sum=0;
     for(int n=0;n<N;n++){
         int m;
         scanf("%d", &m);
         if(m==0){
-            sum-=pop() // 이거 다시그림으로 설명 요함 ...
+            pop();
         }
         else{
             push(m);
-            sum+=m; //sum+=push(m)은 안됨 왜냐하면 반환값이 없기때문
         }
+    }
+    for(int i=0; i<=top;i++){
+        sum+=stack[i];
     }
     printf("%d", sum);
     return 0;
+
 }
+
