@@ -47,7 +47,7 @@ int main(){
         int m;
         scanf("%d", &m);
         if(m==0){
-            pop() 
+            pop();
         }
         else{
             push(m);
