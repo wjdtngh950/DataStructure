@@ -29,6 +29,7 @@ int Next(int x, int idx){
 }
 
 
+
 int bfs(){
     while (front!=rear) {
         front ++;
