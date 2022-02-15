@@ -38,6 +38,7 @@ int bfs(){
         if(v==K){
             return t;
         }
+
         
         if(!visit[v]){
             visit[v]=true;
