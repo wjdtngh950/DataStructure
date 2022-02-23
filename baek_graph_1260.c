@@ -30,6 +30,7 @@ int DFS_empty() {
     return FALSE;
 }
 
+
 int BFS_empty() {
     if (front == rear) {
         return TRUE;
