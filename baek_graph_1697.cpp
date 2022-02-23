@@ -38,7 +38,7 @@ int bfs(){
         if(v==K){
             return t;
         }
-        
+
         if(!visit[v]){
             visit[v]=true;
             for(int k=0;k<3;k++){
