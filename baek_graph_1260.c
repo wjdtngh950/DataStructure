@@ -16,12 +16,14 @@ int DFS_full() {
     return FALSE;
 }
 
+
 int BFS_full() {
     if (rear == SIZE - 1) {
         return TRUE;
     }
     return FALSE;
 }
+
 
 int DFS_empty() {
     if (top == -1) {
