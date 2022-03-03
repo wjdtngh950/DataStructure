@@ -26,6 +26,7 @@ int BFS_full() {
 
 
 
+
 int DFS_empty() {
     if (top == -1) {
         return TRUE;
