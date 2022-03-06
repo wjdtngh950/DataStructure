@@ -16,7 +16,6 @@ int DFS_full() {
     return FALSE;
 }
 
-
 int BFS_full() {
     if (rear == SIZE - 1) {
         return TRUE;
