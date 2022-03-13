@@ -9,6 +9,7 @@ int stack[STACK_SIZE];
 int top = -1;
 int cnt;
 
+
 int is_full() {
     if (top == STACK_SIZE - 1) {
         return TRUE;
