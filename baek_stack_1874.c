@@ -39,6 +39,5 @@ int main() {
         printf("%c\n", op_stack[i]);
     }
 
-    
     return 0;
 }
